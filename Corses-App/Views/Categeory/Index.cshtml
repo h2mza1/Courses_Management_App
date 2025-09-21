@@ -1,0 +1,237 @@
+﻿@using Courses_App.Core.DTO
+@model IEnumerable<CategeoryReadDto>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Category Dashboard";
+}
+
+<div class="container text-center my-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="d-flex justify-content-start mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddCategoryModal">
+            Add Category
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-4">
+        @foreach (var cat in Model)
+        {
+            <div class="col-lg-3 col-md-6" >
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <div class="mb-3">
+                            @if (!string.IsNullOrEmpty(cat.Icon))
+                            {
+                                <img src="@cat.Icon" alt="@cat.Name" width="60" height="60" class="rounded-circle" />
+                            }
+                            else
+                            {
+                                <i class="fas fa-layer-group fa-3x text-secondary"></i>
+                            }
+                        </div>
+                        <h5 class="card-title">@cat.Name</h5>
+                        <p class="text-muted mb-2">Courses: @cat.CoursesCount</p>
+
+                        <div class="d-flex justify-content-center gap-2" >
+                            <button class="btn btn-primary btn-sm btn-update-cat" data-id="@cat.Id">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm btn-delete-cat" data-id="@cat.Id" data-name="@cat.Name">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="table-responsive">
+            <table id="categoryTable" class="table table-striped table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Icon</th>
+                        <th>Courses</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cat in Model)
+                    {
+                        <tr>
+                            <td>@cat.Id</td>
+                            <td>@cat.Name</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(cat.Icon))
+                                {
+                                    <img src="@cat.Icon" alt="@cat.Name" width="40" height="40" class="rounded-circle" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">N/A</span>
+                                }
+                            </td>
+                            <td>@cat.CoursesCount</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm btn-update-cat" data-id="@cat.Id">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm btn-delete-cat" data-id="@cat.Id" data-name="@cat.Name">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Views/Modals/EditCategoryModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/AddCategoryModal.cshtml")
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        const table = $('#categoryTable').DataTable({
+            language: {
+                search: "Search:",
+                lengthMenu: "Show _MENU_ rows",
+                info: "_START_ to _END_ of _TOTAL_ rows",
+                paginate: { previous: "Back", next: "Next" }
+            }
+        });
+
+        // ---------- Update Category ----------
+        $(document).on("click", ".btn-update-cat", function () {
+            const id = $(this).data("id");
+            const row = $(this).closest("tr");
+            const name = row.find("td:nth-child(2)").text().trim();
+            const icon = row.find("td:nth-child(3) img").attr("src") || "";
+
+            $("#updateCategoryId").val(id);
+            $("#updateName").val(name);
+            $("#updateIconPreview").attr("src", icon); // إذا حاب تعرض صورة موجودة في الفورم
+            const updateModal = new bootstrap.Modal(document.getElementById('updateCategoryModal'));
+            updateModal.show();
+        });
+
+        $("#updateCategoryForm").on("submit", function (e) {
+            e.preventDefault();
+            const id = $("#updateCategoryId").val();
+            let formData = new FormData(this);
+
+            Swal.fire({
+                title: 'Updating...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: `/Categeory/Update/${id}`,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (cat) {
+                    const row = $(`.btn-update-cat[data-id="${cat.id}"]`).closest("tr");
+                    table.row(row).data([
+                        cat.id,
+                        cat.name,
+                        cat.icon ? `<img src="${cat.icon}" width="40" height="40" class="rounded-circle" />` : "N/A",
+                        cat.coursesCount ?? 0,
+                        `<button class="btn btn-primary btn-sm btn-update-cat" data-id="${cat.id}"><i class="fa fa-edit"></i></button>
+                         <button class="btn btn-danger btn-sm btn-delete-cat" data-id="${cat.id}" data-name="${cat.name}"><i class="fa fa-trash"></i></button>`
+                    ]).draw();
+
+                    bootstrap.Modal.getInstance(document.getElementById('updateCategoryModal')).hide();
+                    $("#updateCategoryForm")[0].reset();
+                    Swal.fire('Success', 'Category updated successfully!', 'success');
+                },
+                error: function (xhr) {
+                    Swal.fire('Error', xhr.responseText, 'error');
+                }
+            });
+        });
+
+        // ---------- Delete Category ----------
+        $(document).on("click", ".btn-delete-cat", function () {
+            const id = $(this).data("id");
+            const name = $(this).data("name");
+            const row = $(this).closest("tr");
+
+            Swal.fire({
+                title: `Delete "${name}"?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/Categeory/Delete/${id}`,
+                        type: "POST",
+                        success: function (response) {
+                            if(response ==true)
+                            {
+                            table.row(row).remove().draw();
+                            Swal.fire("Deleted!", `Category "${name}" removed.`, "success");
+                            }
+                            else if (response == false)
+                            {
+                                 Swal.fire("Error", response, "error");
+
+                            }
+                            else
+                            {
+                                 Swal.fire("Error", response, "error");
+
+                            }
+                        },
+                        error: function (xhr) {
+                            Swal.fire("Error", xhr.responseText, "error");
+                        }
+                    });
+                }
+            });
+        });
+
+        // ---------- Add Category ----------
+        $("#AddCategoryForm").on("submit", function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: "/Categeory/Add",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (cat) {
+                    table.row.add([
+                        cat.id,
+                        cat.name,
+                        cat.icon ? `<img src="${cat.icon}" width="40" height="40" class="rounded-circle" />` : "N/A",
+                        cat.coursesCount ?? 0,
+                        `<button class="btn btn-primary btn-sm btn-update-cat" data-id="${cat.id}"><i class="fa fa-edit"></i></button>
+                         <button class="btn btn-danger btn-sm btn-delete-cat" data-id="${cat.id}" data-name="${cat.name}"><i class="fa fa-trash"></i></button>`
+                    ]).draw();
+
+                    $("#AddCategoryModal").modal("hide");
+                    $("#AddCategoryForm")[0].reset();
+                    Swal.fire("Success", "Category added successfully!", "success");
+                },
+                error: function (xhr) {
+                    Swal.fire("Error", xhr.responseText, "error");
+                }
+            });
+        });
+    });
+</script>

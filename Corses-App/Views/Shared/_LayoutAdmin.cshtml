@@ -1,0 +1,191 @@
+﻿@{
+
+    var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? User.Identity.Name;
+    var profilePic = User.Claims.FirstOrDefault(c => c.Type == "ProfilePicture")?.Value ?? "/img/profilePicture/profileImage.jpg";
+
+    ViewData["Title"] = "Dashboard";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewData["Title"]-Admin</title>
+   
+    <!-- FontAwesome -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    @* <link href="~/css/site.css" rel="stylesheet" /> *@
+     <style>
+        #searchResults {
+            max-height: 300px;
+            overflow-y: auto;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+    <!-- Top Navbar -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" asp-action="Index" asp-controller="Admin">Dashboard</a>
+        <button class="btn btn-link btn-sm me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+
+        <!-- Search -->
+        <form class="d-none d-md-flex ms-auto position-relative">
+            <div class="input-group">
+                <input id="searchBox" class="form-control" type="text" placeholder="Search..." autocomplete="off" />
+                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="searchResults" class="list-group mt-1"></div>
+        </form>
+
+        <!-- User Menu -->
+        <ul class="navbar-nav ms-auto me-3">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+                    <img src="@profilePic" alt="User" class="rounded-circle me-2" style="width:40px; height:40px; object-fit:cover;" />
+                    <span class="d-none d-md-inline">@fullName</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Activity Log</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <form id="logoutForm" method="post" asp-area="Identity" asp-page="/Account/Logout">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Layout -->
+    <div id="layoutSidenav">
+        <!-- Sidebar -->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+
+                        <div class="sb-sidenav-menu-heading">Mangement</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts">
+                            <i class="fas fa-columns me-2"></i> Layouts
+                        </a>
+                        <div class="collapse" id="collapseLayouts">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-controller="Student" asp-action="Index">Students</a>
+                                <a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a>
+                                <a class="nav-link" asp-controller="Instructor" asp-action="Index">Instructors</a>
+                                <a class="nav-link" asp-controller="Enrollment" asp-action="Index">Enrollments</a>
+                                <a class="nav-link" asp-controller="Categeory" asp-action="Index">Categories</a>
+                            </nav>
+                        </div>
+                        <a href="#" class="nav-link" onclick="document.getElementById('logoutForm').submit(); return false;">
+                            <i class="fa fa-sign-out"></i> Logout
+                        </a>
+
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer text-center">
+                    <div class="small">Logged in as:</div>
+                    @User.Identity.Name
+                </div>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div id="layoutSidenav_content">
+            <div class="container-fluid">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div> <!-- container -->
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; 2023 by Hamza</div>
+                        <div>
+                            <a href="#">Privacy Policy</a> &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div> <!-- layoutSidenav_content -->
+    </div> <!-- layoutSidenav -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="~/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+  
+    <!-- Search -->
+    <script>
+        let timer;
+        const searchBox = document.getElementById("searchBox");
+        const resultsDiv = document.getElementById("searchResults");
+
+        searchBox.addEventListener("input", function () {
+            clearTimeout(timer);
+            let term = this.value.trim();
+
+            if (term.length < 2) {
+                resultsDiv.innerHTML = "";
+                resultsDiv.style.display = "none";
+                return;
+            }
+
+            timer = setTimeout(() => {
+                fetch(`/Course/Search?term=${encodeURIComponent(term)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        resultsDiv.innerHTML = "";
+                        if (data.length === 0) {
+                            resultsDiv.style.display = "none";
+                            return;
+                        }
+                        data.forEach(item => {
+                            let a = document.createElement("a");
+                            a.href = `/Video/Index/${item.courseId}`;
+                            a.className = "list-group-item list-group-item-action";
+                            a.textContent = item.name;
+                            resultsDiv.appendChild(a);
+                        });
+                        resultsDiv.style.display = "block";
+                    });
+            }, 300);
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!searchBox.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = "none";
+            }
+        });
+    </script>
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

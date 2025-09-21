@@ -1,0 +1,449 @@
+﻿@model HomeViewModel
+<main class="main">
+
+    <!-- Courses Hero Section -->
+    <section id="courses-hero" class="courses-hero section light-background">
+
+        <div class="hero-content">
+            <div class="container">
+                <div class="row align-items-center">
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="hero-text">
+                            <h1>Transform Your Future with Expert-Led Online Courses</h1>
+                            <p>Discover thousands of high-quality courses designed by industry professionals. Learn at your own pace, gain in-demand skills, and advance your career from anywhere in the world.</p>
+
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="50000" data-purecounter-duration="2"></span>
+                                    <span class="label">Students Enrolled</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="1200" data-purecounter-duration="2"></span>
+                                    <span class="label">Expert Courses</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2"></span>
+                                    <span class="label">Success Rate %</span>
+                                </div>
+                            </div>
+
+                            <div class="hero-buttons">
+                                <a asp-controller="Home" asp-action="Courses" class="btn btn-primary">Browse Courses</a>
+                                <a href="#about" class="btn btn-outline">Learn More</a>
+                            </div>
+
+                            <div class="hero-features">
+                                <div class="feature">
+                                    <i class="bi bi-shield-check"></i>
+                                    <span>Certified Programs</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="bi bi-clock"></i>
+                                    <span>Lifetime Access</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="bi bi-people"></i>
+                                    <span>Expert Instructors</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="hero-image">
+                            <div class="main-image">
+                                <img src="~/img/education/courses-13.webp" alt="Online Learning" class="img-fluid">
+                            </div>
+                            @* Top Courses  *@
+                            <div class="floating-cards">
+                                @{
+                                    int i = 300;
+                                }
+                                @foreach (var coures in Model.topCourses)
+                                {
+                                    <div class="course-card" data-aos="fade-up" data-aos-delay="@i">
+                                        <div class="card-icon">
+                                            @{
+                                                if (coures.CategoryImg != null)
+                                                {<img src="@coures.CategoryImg" style="max-height:40px; max-width:40px;border-image:fill "/>}
+                                                else
+                                                    {
+                                                        <i class="bi bi-code-slash"></i>
+
+                                                    }
+                                                }
+                                        </div>
+                                        <div class="card-content">
+                                            <h6>@coures.Name</h6>
+                                            <span>@coures.EnrollmentsCount Students</span>
+                                        </div>
+                                    </div>
+                                    i += 100;
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-background">
+            <div class="bg-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+
+    </section><!-- /Courses Hero Section -->
+    <!-- Featured Courses Section -->
+    <section id="featured-courses" class="featured-courses section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Featured Courses</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4" id="course-list">
+
+                @foreach (var course in Model.Courses)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="@course.courseImage" alt="Course" class="img-fluid" loading="lazy">
+                               @{if (course.IsActive==false) 
+
+                                    {
+                                        <div class="badge featured">Featured</div>
+
+                                    }
+                                    else
+
+                                    {
+                                        <div class="badge featured">Active Now</div>
+
+                                    }
+                                }
+                                <div class="price-badge">@course.Price</div>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-meta">
+                                  
+                                    <span class="duration">@course.time</span>
+                                </div>
+                                <h3><a href="#">@course.Name</a></h3>
+                                <p>@course.Description</p>
+                                <div class="instructor">
+                                    <img src="@course.instructorImage" alt="Instructor" class="instructor-img" loading="lazy">
+                                    <div class="instructor-info">
+                                        <h6>@course.InstructorName</h6>
+                                        <span>@course.InstructorMajor</span>
+                                    </div>
+                                </div>
+                                <div class="course-stats">
+                                    <div class="rating">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                        <span>(4.5)</span>
+                                    </div>
+                                    <div class="students">
+                                        <i class="bi bi-people-fill"></i>
+                                        @{
+                                        if (course.EnrollmentsCount != null && course.EnrollmentsCount != 0)
+                                        {
+                                         <span>
+                                                @course.EnrollmentsCount
+                                             </span>
+                                        }
+                                        else
+                                            {
+                                                <span>
+                                                    122
+                                                </span>
+                                            }
+                                        }
+
+                                        
+                                    </div>
+                                </div>
+                                <a  class="btn-course" asp-action="Enroll" asp-controller="Home" asp-route-courseId="@course.courseId" role="button">Enroll Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            </div>
+
+            <div class="more-courses text-center" data-aos="fade-up" data-aos-delay="500">
+                <a  id="loadMore" class="btn-more">View More Courses</a>
+            </div>
+
+        </div>
+
+    </section><!-- /Featured Courses Section -->
+    <!-- Course Categories Section -->
+    <section id="course-categories" class="course-categories section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Course Categories</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+           
+            <div class="row g-4">
+                @foreach (var cat in Model.Categeories)
+                {
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6" data-aos="zoom-in" data-aos-delay="150">
+                        <a asp-action="GetCoursesByCategoryId" asp-controller="Course" asp-route-id="@cat.Id" class="category-card category-tech">
+                        <div class="category-icon">
+                                @{
+                                    if (cat.Icon==null)
+                                    {
+                                        <i class="bi bi-laptop"></i>
+
+                                    }
+                                    else
+                                    {
+                                        <img src="@cat.Icon" style="max-height:100%; max-width:100%;border-image:fill; border-radius:50%; " />
+                                    }
+                                }
+                        </div>
+                            <h5>@cat.Name</h5>
+                            <span class="course-count">@cat.CoursesCount Courses</span>
+                    </a>
+                </div><!-- End Category Item -->
+                }
+                
+
+            </div>
+
+        </div>
+
+    </section><!-- /Course Categories Section -->
+    <!-- Featured Instructors Section -->
+    <section id="featured-instructors" class="featured-instructors section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Featured Instructors</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+                @foreach (var inst in Model.Instructors)
+                {
+                <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="instructor-card">
+                        <div class="instructor-image">
+                            <img src="@inst.Picture" class="img-fluid" alt="">
+                            <div class="overlay-content">
+                                <div class="rating-stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <span>4.8</span>
+                                </div>
+                                <div class="course-count">
+                                    <i class="bi bi-play-circle"></i>
+                                    <span>@inst.Courses Courses</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="instructor-info">
+                            <h5>@inst.FullName</h5>
+                            <p class="specialty">@inst.Major</p>
+                            <p class="description">Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.</p>
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="number">2.1k</span>
+                                    <span class="label">Students</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="number">4.8</span>
+                                    <span class="label">Rating</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="#" class="btn-view">View Profile</a>
+                                <div class="social-links">
+                                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#"><i class="bi bi-twitter"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+
+        </div>
+
+    </section><!-- /Featured Instructors Section -->
+    <!-- Cta Section -->
+    <section id="cta" class="cta section light-background">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+                    <div class="cta-content">
+                        <h2>Transform Your Future with Expert-Led Online Courses</h2>
+                        <p>Join thousands of successful learners who have advanced their careers through our comprehensive online education platform.</p>
+
+                        <div class="features-list">
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>20+ Expert instructors with industry experience</span>
+                            </div>
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="350">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>Certificate of completion for every course</span>
+                            </div>
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>24/7 access to course materials and resources</span>
+                            </div>
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="450">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>Interactive assignments and real-world projects</span>
+                            </div>
+                        </div>
+
+                        <div class="cta-actions" data-aos="fade-up" data-aos-delay="500">
+                            <a asp-controller="Home" asp-action="Courses" class="btn btn-primary">Browse Courses</a>
+                            <a href="enroll.html" class="btn btn-outline">Enroll Now</a>
+                        </div>
+
+                        <div class="stats-row" data-aos="fade-up" data-aos-delay="400">
+                            <div class="stat-item">
+                                <h3><span data-purecounter-start="0" data-purecounter-end="15000" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+                                <p>Students Enrolled</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3><span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+                                <p>Courses Available</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2" class="purecounter"></span>%</h3>
+                                <p>Success Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+                    <div class="cta-image">
+                        <img src="~/img/education/courses-4.webp" alt="Online Learning Platform" class="img-fluid">
+                        <div class="floating-element student-card" data-aos="zoom-in" data-aos-delay="600">
+                            <div class="card-content">
+                                <i class="bi bi-person-check-fill"></i>
+                                <div class="text">
+                                    <span class="number">2,450</span>
+                                    <span class="label">New Students This Month</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floating-element course-card" data-aos="zoom-in" data-aos-delay="700">
+                            <div class="card-content">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <div class="text">
+                                    <span class="number">50+</span>
+                                    <span class="label">Hours of Content</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- /Cta Section -->
+
+</main>
+<!--sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--Load More Course -->
+<script>
+    let skip = 6;
+    const take = 6;
+
+    document.getElementById("loadMore").addEventListener("click", function () {
+        fetch(`/Course/GetMoreCourses?skip=${skip}&take=${take}`)
+            .then(res => {
+                if (!res.ok) {
+                    // إذا NotFound
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No more courses',
+                        text: 'No more courses',
+                        confirmButtonText: 'OK'
+                    });
+                    return [];
+                }
+                return res.json();
+            })
+            .then(data => {
+                if(data.length === 0) {
+                    // تحسب حالة إذا الـ API رجع مصفوفة فارغة
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No more courses',
+                        text: 'No more courses',
+                        confirmButtonText: 'Ok'
+                    });
+                    return;
+                }
+
+                data.forEach(course => {
+                    // هنا تضيف HTML للكورسات الجديدة
+                    document.getElementById("course-list").innerHTML += `
+                        <div class="col-lg-4 col-md-6">
+                            <div class="course-card">
+                                <div class="course-image">
+                                    <img src="/img/education/students-9.webp" alt="Course" class="img-fluid">
+                                    ${course.isActive ? `<div class="badge featured">Featured</div>` : `<div class="badge featured">Active Now</div>`}
+                                    <div class="price-badge">${course.price}</div>
+                                </div>
+                                <div class="course-content">
+                                    <div class="course-meta">
+                                        <span class="duration">${course.time}</span>
+                                    </div>
+                                    <h3><a href="#">${course.name}</a></h3>
+                                    <p>${course.description}</p>
+                                    <div class="instructor">
+                                        <img src="${course.instructorImage}" alt="Instructor" class="instructor-img">
+                                        <div class="instructor-info">
+                                            <h6>${course.instructorName}</h6>
+                                            <span>${course.instructorMajor}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+
+                skip += data.length;
+            });
+    });
+
+   </script>

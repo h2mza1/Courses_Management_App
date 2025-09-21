@@ -1,0 +1,39 @@
+﻿<!-- Video Upload Modal -->
+<div class="modal fade" id="videoUploadModal" tabindex="-1" aria-labelledby="videoUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="videoUploadModalLabel">Add New Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Form -->
+            <form id="videoUploadForm" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="CourseId" value="@ViewBag.CourseId" />
+                <div class="mb-3">
+                    <label>Video Title</label>
+                    <input type="text" class="form-control" name="Name" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control" name="Description"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Select Video</label>
+                    <input type="file" class="form-control" name="VideoFile" accept="video/*" required />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

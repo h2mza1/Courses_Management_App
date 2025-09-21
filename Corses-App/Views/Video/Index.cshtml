@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Courses_App.Core.DTO.CourseVideoDto>
+
+@{
+    ViewData["Title"] = "Videos Management";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container my-4">
+
+    <h1 class="text-center text-primary mb-4">
+        @ViewBag.CourseTitle ?? "Videos Management"
+    </h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+            <i class="fa fa-plus-circle"></i> Add New Video
+        </button>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm rounded-3 table-responsive">
+            <table id="videosTable" class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Course</th>
+                        <th>Video</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.CourseName</td>
+                            <td>
+                                <a href="@item.VideoPath" target="_blank" class="btn btn-sm btn-info">
+                                    <i class="fa fa-play-circle"></i> View
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-success btn-sm btn-edit-video" data-id="@item.Id">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm delete-btn" data-id="@item.Id">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted">No videos found.</p>
+    }
+</div>
+
+<!-- Modals -->
+@await Html.PartialAsync("~/Views/Modals/AddVideoModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/UpdateVideoModal.cshtml")
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+        // تهيئة DataTable
+        const table = $('#videosTable').DataTable({
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: ['excelHtml5', 'csvHtml5']
+        });
+
+        // إضافة فيديو جديد
+        $('#videoUploadForm').submit(function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            Swal.fire({ title: 'Uploading...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            $.ajax({
+                url: '/Video/Create',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                success: function (res) {
+                    Swal.close();
+                    if (res.success) {
+                        const video = res.data;
+                        table.row.add([
+                            video.name,
+                            video.description || '',
+                            video.course?.title || 'N/A',
+                            `<a href="${video.videoPath}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-play-circle"></i> View</a>`,
+                            `<button class="btn btn-success btn-sm btn-edit-video" data-id="${video.id}"><i class="fa fa-edit"></i></button>
+                             <button class="btn btn-danger btn-sm delete-btn" data-id="${video.id}"><i class="fa fa-trash"></i></button>`
+                        ]).draw();
+
+                        bootstrap.Modal.getInstance(document.getElementById('videoUploadModal')).hide();
+                        $('#videoUploadForm')[0].reset();
+                        Swal.fire('Success', res.message, 'success');
+                    } else {
+                        Swal.fire('Error!', res.message, 'error');
+                    }
+                },
+                error: function () { Swal.close(); Swal.fire('Error!', 'Something went wrong.', 'error'); }
+            });
+        });
+
+        // حذف الفيديو
+        $(document).on('click', '.delete-btn', function () {
+            const id = $(this).data('id');
+            const row = $(this).closest('tr');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Video/DeleteConfirm/' + id,
+                        type: 'POST',
+                        headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                        success: function (res) {
+                            if (res.success) { table.row(row).remove().draw(); Swal.fire('Deleted!', res.message, 'success'); }
+                            else { Swal.fire('Error!', res.message, 'error'); }
+                        },
+                        error: function () { Swal.fire('Oops!', 'Something went wrong.', 'error'); }
+                    });
+                }
+            });
+        });
+
+        // تعديل الفيديو
+        $(document).on('click', '.btn-edit-video', function () {
+            const videoId = $(this).data('id');
+
+            $.ajax({
+                url: '/Video/Edit/' + videoId,
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        const video = res.data;
+                        $('#updateVideoId').val(video.id);
+                        $('#updateName').val(video.name);
+                        $('#courseId').val(video.courseId);
+                        $('#updateDescription').val(video.description || '');
+                        $('#videoPreview').attr('src', video.videoPath);
+                        $('#updateVideoModal').modal('show');
+                    } else { Swal.fire('Error!', 'Video not found.', 'error'); }
+                },
+                error: function () { Swal.fire('Error!', 'Failed to fetch video data.', 'error'); }
+            });
+        });
+
+        // تحديث الفيديو
+        $('#updateVideoForm').submit(function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const videoId = $('#updateVideoId').val();
+
+            Swal.fire({ title: 'Updating...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            $.ajax({
+                url: '/Video/Edit',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    Swal.close();
+                    if (res.success) {
+                        $('#updateVideoModal').modal('hide');
+                        $('#videosTable tbody tr').each(function () {
+                            const rowId = $(this).find('.btn-edit-video').data('id');
+                            if (rowId == videoId) {
+                                const video = res.data;
+                                table.row($(this)).data([
+                                    video.name,
+                                    video.description || '',
+                                    video.Course?.Title || 'N/A',
+                                    `<a href="${video.videoPath}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-play-circle"></i> View</a>`,
+                                    `<button class="btn btn-success btn-sm btn-edit-video" data-id="${video.id}"><i class="fa fa-edit"></i></button>
+                                     <button class="btn btn-danger btn-sm delete-btn" data-id="${video.id}"><i class="fa fa-trash"></i></button>`
+                                ]).draw(false);
+                            }
+                        });
+                        Swal.fire('Success', res.message, 'success');
+                    } else { Swal.fire('Error!', res.message, 'error'); }
+                },
+                error: function () { Swal.close(); Swal.fire('Error!', 'Something went wrong.', 'error'); }
+            });
+        });
+
+        // معاينة الفيديو عند اختيار ملف جديد
+        $('input[name="VideoFile"]').on('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                $('#videoPreview').attr('src', url);
+            }
+        });
+
+    });
+</script>

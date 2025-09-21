@@ -1,0 +1,61 @@
+﻿@using Courses_App.Core.DTO
+@model IEnumerable<CourseVideoDto>
+
+@{
+    ViewData["Title"] = "Videos";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // نتأكد إنه مربوط بالـ Layout
+}
+<!-- Page Title -->
+<div class="page-title light-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Courses</h1>
+        <nav class="breadcrumbs">
+            <ol>
+                <li><a asp-action="index" asp-controller="Home">Home</a></li>
+                <li><a asp-action="MyCourses" asp-controller="Home" asp-route-userId="@ViewBag.UserId">@ViewBag.Course MyCourses</a></li>
+
+                <li class="current">My Courses</li>
+            </ol>
+        </nav>
+    </div>
+</div><!-- End Page Title -->
+<div class="container my-4">
+    <h2 class="mb-4 text-center">📺 Course Videos</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            There are no videos available for this course.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var video in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="@video.img"
+                                    title="@video.Name"
+                                    allowfullscreen
+                                    class="rounded-top">
+                            </iframe>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@video.Name</h5>
+                            <p class="card-text text-muted">
+                                @video.Description
+                            </p>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="@video.VideoPath" target="_blank" class="btn btn-sm btn-primary">
+                                Play Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

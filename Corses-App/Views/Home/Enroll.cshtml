@@ -1,0 +1,210 @@
+﻿@model HomeViewModel
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Enrollment</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="current">Enroll</li>
+                </ol>
+            </nav>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- Enroll Section -->
+    <section id="enroll" class="enroll section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="enrollment-form-wrapper">
+
+                        <div class="enrollment-header text-center mb-5" data-aos="fade-up" data-aos-delay="200">
+                            <h2>Enroll in Your Dream Course</h2>
+                            <p>Take the next step in your educational journey. Complete the form below to secure your spot in our comprehensive online learning program.</p>
+                        </div>
+
+                        <form class="enrollment-form" data-aos="fade-up" data-aos-delay="300">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="StudentId" id="studentId" value="@Model.Student.Id" />
+
+                            <!-- Full Name -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstName" class="form-label">Full Name *</label>
+                                        <input type="text" id="firstName" name="FullName" class="form-control" required
+                                               value="@Model.Student.FullName" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email Address *</label>
+                                        <input type="email" id="email" name="Email" class="form-control" required
+                                               value="@Model.Student.Email" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="course" class="form-label">Course *</label>
+                                        @if (Model.selectedCourseId.HasValue)
+                                        {
+                                            var selectedCourse = Model.Courses.FirstOrDefault(c => c.courseId == Model.selectedCourseId);
+                                            if (selectedCourse != null)
+                                            {
+                                                <input type="text" class="form-control" value="@selectedCourse.Name" readonly />
+                                                <input type="hidden" name="CourseId" id="course" value="@selectedCourse.courseId" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <select id="course" name="CourseId" class="form-select" required>
+                                                <option value="">Choose a course...</option>
+                                            </select>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms & Newsletter -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                                            <label class="form-check-label" for="terms">
+                                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> *
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                            <label class="form-check-label" for="newsletter">
+                                                I would like to receive course updates and educational content via email
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-enroll" id="btnEnroll">
+                                        <i class="bi bi-check-circle me-2"></i> Enroll Now
+                                    </button>
+                                    <p class="enrollment-note mt-3">
+                                        <i class="bi bi-shield-check"></i> Your information is secure and will never be shared with third parties
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div><!-- End Form Column -->
+                <!-- Benefits Column -->
+                <div class="col-lg-4 d-none d-lg-block">
+                    <div class="enrollment-benefits" data-aos="fade-left" data-aos-delay="400">
+                        <h3>Why Choose Our Courses?</h3>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-trophy"></i></div>
+                            <div class="benefit-content">
+                                <h4>Expert Instructors</h4>
+                                <p>Learn from industry professionals with years of real-world experience</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-clock"></i></div>
+                            <div class="benefit-content">
+                                <h4>Flexible Learning</h4>
+                                <p>Study at your own pace with 24/7 access to course materials</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-award"></i></div>
+                            <div class="benefit-content">
+                                <h4>Certification</h4>
+                                <p>Earn industry-recognized certificates upon course completion</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-people"></i></div>
+                            <div class="benefit-content">
+                                <h4>Community Support</h4>
+                                <p>Connect with fellow students and get help when you need it</p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Benefits Column -->
+
+            </div>
+        </div>
+    </section><!-- /Enroll Section -->
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function(){
+
+       
+        // Submit enrollment form via AJAX
+        $(".enrollment-form").on("submit", function(e){
+            e.preventDefault();
+
+            const formData = {
+                StudentId: $("#studentId").val(),
+                CourseId: $("#course").val(),
+                EnrollmentDate: new Date().toISOString()
+            };
+
+            $.ajax({
+                url: "/Enrollment/Create",
+                contentType: "application/json; charset=utf-8", // 👈 مهم
+                type: "POST",
+                data:JSON.stringify( formData), // form data
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response){
+                    Swal.fire(response.success ? "Success" : "Error", response.message, response.success ? "success" : "error");
+                    $(".enrollment-form")[0].reset();
+                },
+                error: function(xhr){
+                    Swal.fire("Error", xhr.responseText || "Something went wrong", "error");
+                }
+            });
+        });
+    });
+</script>
+@if (!Model.selectedCourseId.HasValue)
+{
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url : "/Course/GetAll",
+                type : "GET",
+                success : function(response) {
+                    response.data.forEach(function(data){
+                        $("#course").append(`<option value="${data.courseId}">${data.name}</option>`);
+                    });
+                },
+                error : function(){
+                    Swal.fire("Error","Failed to load courses","error");
+                }
+            });
+        });
+    </script>
+}

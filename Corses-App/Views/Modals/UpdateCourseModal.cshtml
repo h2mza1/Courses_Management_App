@@ -1,0 +1,58 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="updateCourseModal" tabindex="-1" aria-labelledby="updateCourseModalLabel" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCourseModalLabel">Update Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="updateCourseForm" enctype="multipart/form-data">
+                <input type="hidden" id="updateCourseId" name="Id" />
+
+                <div class="mb-3">
+                    <label>Title</label>
+                    <input type="text" class="form-control" id="updateTitle" name="Title" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control" id="updateDescription" name="Description"></textarea>
+                </div>
+
+                <div class="mb-3" id="instructorss">
+                    <label>Instructor</label>
+                    <select id="updateInstructorId" class="form-control" name="InstructorId" required></select>
+                </div>
+                @* Categeory *@
+                <div class="mb-3" id="Categeorys">
+                    <label>Categeory</label>
+                    <select id="updateCategeoryId" class="form-control" name="CategeoryId" required></select>
+                </div>
+                @* Price *@
+                <div class="mb-3">
+                    <label>Price</label>
+                    <input type="number" class="form-control" id="updatePrice" name="Price" required />
+                </div>
+
+                @* Start Date  *@
+                <div class="mb-3">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control" id="updateStartDate" name="StartDate" required min="@DateTime.Now.ToString("yyyy-MM-dd")"  />
+                </div>
+
+                @* End Date  *@
+                <div class="mb-3">
+                    <label>End Date</label>
+                    <input type="date" class="form-control" id="updateEndDate" name="EndDate" required />
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

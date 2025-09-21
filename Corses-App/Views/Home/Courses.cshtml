@@ -1,0 +1,374 @@
+﻿
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Courses</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a asp-action="index" asp-controller="Home">Home</a></li>
+                    <li class="current">Courses</li>
+                </ol>
+            </nav>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- Courses 2 Section -->
+    <section id="courses-2" class="courses-2 section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="course-filters" data-aos="fade-right" data-aos-delay="100">
+                        <h4 class="filter-title">Filter Courses</h4>
+
+                       @*  <div class="filter-group">
+                            <h5>Category</h5>
+                            <div class="filter-options">
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" checked="">
+                                    <span class="checkmark"></span>
+                                    All Categories
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Programming
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Design
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Business
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Marketing
+                                </label>
+                            </div>
+                        </div> *@
+
+                      @*   <div class="filter-group">
+                            <h5>Duration</h5>
+                            <div class="filter-options">
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Under 5 hours
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    5-20 hours
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    20+ hours
+                                </label>
+                            </div>
+                        </div> *@
+
+                        <div class="filter-group">
+                            <h5>Price</h5>
+                            <div class="filter-options">
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" id="free">
+                                    <span class="checkmark"></span>
+                                    Free
+                                </label>
+                                <label class="filter-checkbox">
+                                    <input type="checkbox" id="paid">
+                                    <span class="checkmark"></span>
+                                    Paid
+                                </label>
+                            </div>
+                        </div>
+                    </div><!-- End Course Filters -->
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="courses-header" data-aos="fade-left" data-aos-delay="100">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search courses..." id="searchBox">
+                        </div>
+                        <div id="resultsDiv"></div>
+                        <div class="sort-dropdown">
+                            <select>
+                                <option>Sort by: Most Popular</option>
+                                <option>Newest First</option>
+                                <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
+                                <option>Duration: Short to Long</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="courses-grid" data-aos="fade-up" data-aos-delay="200">
+                        <div class="row">
+                            
+                            @foreach (var course in Model)
+
+                            {
+
+                                <div class="col-lg-6 col-md-6" >
+                                    <div class="course-card">
+                                        <div class="course-image">
+                                            <img src="@course.courseImage " alt="No Image" title="@course.Name" class="img-fluid" loading="lazy">
+                                            @{
+                                                if (course.Price == 0)
+                                                {
+                                                    <div class="course-badge badge-free">Free</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="course-badge badge-free">@course.Price</div>
+
+                                                }
+                                            }
+                                        </div>
+                                        <div class="course-content">
+                                            <div class="course-meta">
+                                                <span class="category">@course.categeoryName</span>
+                                            </div>
+                                            <h3>@course.Name</h3>
+                                            <p>@course.Description</p>
+                                            <div class="course-stats">
+                                                <div class="stat">
+                                                    <i class="bi bi-clock"></i>
+                                                    <span>@course.VideoCount vedios</span>
+                                                </div>
+                                                <div class="stat">
+                                                    <i class="bi bi-people"></i>
+                                                    <span>@course.EnrollmentsCount students</span>
+                                                </div>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <i class="bi bi-star"></i>
+                                                    <span>4.6 (156 reviews)</span>
+                                                </div>
+                                            </div>
+                                            <div class="instructor-info">
+                                                <img src="@course.instructorImage" alt="@course.InstructorName" class="instructor-avatar">
+                                                <span class="instructor-name">@course.InstructorName</span>
+                                            </div>
+                                            @{
+                                                if (course.Price == 0)
+                                                {
+                                                    <a asp-action="Enroll" asp-controller="Home" asp-route-courseId="@course.courseId" role="button" class="btn-course">Start Free Course</a>
+
+                                                }
+                                                else
+                                                {
+                                                     <a asp-action="Enroll" asp-controller="Home" asp-route-courseId="@course.courseId"role="button" class="btn-course">Enroll Now</a>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div><!-- End Course Card -->
+                                </div>
+
+                            }
+
+
+                        </div>
+                    </div><!-- End Courses Grid -->
+
+                        <div class="btn-div" data-aos="fade-up" data-aos-delay="500">
+                                <a id="loadMore" class="btn-more-courses" role="button">View More Courses</a>
+                            </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- /Courses 2 Section -->
+
+</main>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    let skip = 6; // عدد الكورسات الأولية
+    const take = 6;
+
+    $(document).ready(function () {
+        $('#loadMore').click(function () {
+            $.ajax({
+                url: `/Course/GetMoreCourses?skip=${skip}&take=${take}`,
+                type: 'GET',
+                success: function (data) {
+                    if (!data || data.length === 0) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'No more courses',
+                            text: 'No more courses found',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    }
+
+                    data.forEach(course => {
+                        let html = `
+                        <div class="col-lg-6 col-md-6">
+                            <div class="course-card">
+                                <div class="course-image">
+                                    <img src="${course.courseImage}" alt="${course.name}" loading="lazy" class="img-fluid">
+                                    ${course.price == 0
+                                        ? `<div class="course-badge badge-free">Free</div>`
+                                        : `<div class="course-badge">${course.price}$</div>`
+                                    }
+                                </div>
+                                <div class="course-content">
+                                    <div class="course-meta">
+                                        <span class="category">${course.categeoryName ?? 'No Category'}</span>
+                                    </div>
+                                    <h3>${course.name}</h3>
+                                    <p>${course.description}</p>
+                                    <div class="course-stats">
+                                        <div class="stat">
+                                            <i class="bi bi-clock"></i>
+                                            <span>${course.videoCount} videos</span>
+                                        </div>
+                                        <div class="stat">
+                                            <i class="bi bi-people"></i>
+                                            <span>${course.enrollmentsCount} students</span>
+                                        </div>
+                                        <div class="rating">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star"></i>
+                                            <span>4.6 (156 reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="instructor-info">
+                                        <img src="${course.instructorImage ?? '/img/person/person-m-3.webp'}"
+                                             alt="${course.instructorName}" class="instructor-avatar">
+                                        <span class="instructor-name">${course.instructorName}</span>
+                                    </div>
+                                    ${course.price == 0
+                                        ? `<a href="/Home/Enroll/${course.courseId}" class="btn-course">Start Free Course</a>`
+                                        : `<a href="/Home/Enroll/${course.courseId}" class="btn-course">Enroll Now</a>`
+                                    }
+                                </div>
+                            </div>
+                        </div>`;
+
+                        // أضف الكارت للـ row
+                        $(".courses-grid .row").append(html);
+                    });
+
+                    skip += data.length; // تحديث قيمة skip
+                },
+                error: function (xhr) {
+                    Swal.fire('Error', 'No Courses Found', 'error');
+                }
+            });
+        });
+    });
+</script>
+<!-- Search -->
+<script>
+    let timer;
+    const searchBox = document.getElementById("searchBox");
+    const resultsDiv = document.getElementById("resultsDiv");
+
+    searchBox.addEventListener("input", function () {
+        clearTimeout(timer);
+        let term = this.value.trim();
+
+        if (term.length < 2) {
+            // عرض كل الكورسات إذا تم مسح البحث
+            document.querySelectorAll(".courses-grid .course-card").forEach(card => {
+                card.parentElement.style.display = "block";
+            });
+
+            resultsDiv.innerHTML = "";
+            resultsDiv.style.display = "none";
+            return;
+        }
+
+        timer = setTimeout(() => {
+            fetch(`/Home/search?term=${encodeURIComponent(term)}`)
+                .then(r => r.json())
+                .then(data => {
+                    resultsDiv.innerHTML = "";
+                    if (data.length === 0) {
+                        resultsDiv.style.display = "none";
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        let a = document.createElement("a");
+                        a.href = "#";
+                        a.className = "list-group-item list-group-item-action";
+                        a.textContent = item.name;
+
+                        a.addEventListener("click", function (e) {
+                            e.preventDefault();
+
+                            // فلترة الكورسات في الـ grid
+                            document.querySelectorAll(".courses-grid .course-card").forEach(card => {
+                                if (card.querySelector("h3").textContent.trim() === item.name.trim()) {
+                                    card.parentElement.style.display = "block"; // أظهر الكورس المختار
+                                } else {
+                                    card.parentElement.style.display = "none"; // أخفي الباقي
+                                }
+                            });
+
+                            resultsDiv.style.display = "none"; // أخفي نتائج البحث
+                        });
+
+                        resultsDiv.appendChild(a);
+                    });
+
+                    resultsDiv.style.display = "block";
+                });
+        }, 300);
+    });
+
+    document.addEventListener("click", function (e) {
+        if (!searchBox.contains(e.target) && !resultsDiv.contains(e.target)) {
+            resultsDiv.style.display = "none";
+        }
+    });
+</script>
+<script>
+$(document).ready(function () {
+    // فلترة الكورسات حسب السعر
+    $('#free, #paid').change(function () {
+        const showFree = $('#free').is(':checked');
+        const showPaid = $('#paid').is(':checked');
+
+        // عرض جميع الكورسات إذا لم يتم اختيار أي فلتر
+        if (!showFree && !showPaid) {
+            $('.courses-grid .course-card').parent().show();
+            return;
+        }
+
+        $('.courses-grid .course-card').each(function () {
+            const price = parseFloat($(this).find('.course-badge').text()) || 0;
+
+            if ((showFree && price === 0) || (showPaid && price > 0)) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+        });
+    });
+});
+</script>

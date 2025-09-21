@@ -1,0 +1,319 @@
+﻿@model IEnumerable<Courses_App.Core.DTO.EnrollmentReadDTO>
+
+@{
+    ViewData["Title"] = "Enrollments Management";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container my-4">
+    <!-- العنوان وزر إضافة -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold text-primary">
+            <i class="fa fa-users"></i> Enrollments Management
+        </h2>
+        <button type="button" class="btn btn-primary shadow-sm bi-align-start " data-bs-toggle="modal" data-bs-target="#addEnrollmentModal">
+            <i class="fa fa-plus-circle"></i> Add Enrollment
+        </button>
+    </div>
+
+    <!-- الفلاتر -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <select id="filterCourse" class="form-select">
+                <option value="">-- Filter by Course --</option>
+                @foreach (var course in Model.Select(e => e.CourseName).Distinct())
+                {
+                    <option value="@course">@course</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            <select id="filterStudent" class="form-select">
+                <option value="">-- Filter by Student --</option>
+                @foreach (var student in Model.Select(e => e.StudentName).Distinct())
+                {
+                    <option value="@student">@student</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <!-- الجدول -->
+    <div class="card shadow-sm rounded-3 table-responsive">
+        <div class="card-body">
+            <table id="enrollmentsTable" class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fa fa-book me-1"></i> Course</th>
+                        <th><i class="fa fa-user me-1"></i> Student</th>
+                        <th><i class="fa fa-calendar-alt me-1"></i> Enrollment Date</th>
+                        <th><i class="fa fa-cogs me-1"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="badge bg-primary">@item.CourseName</span></td>
+                            <td><span class="badge bg-success">@item.StudentName</span></td>
+                            <td>@item.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                <button class="btn btn-outline-success btn-sm btn-edit-enrollment" data-id="@item.Id">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm btn-delete-enrollment" data-id="@item.Id">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Views/Modals/AddEnrollmentModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/DeleteEnrollmentModal.cshtml")
+
+<!-- مكتبات jQuery + DataTables + SweetAlert2 + Select2 -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.full.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#enrollmentsTable').DataTable({
+            language: {
+                search: "Search:",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            }
+        });
+
+        // تفعيل Select2 على الفلاتر
+        $('#filterCourse, #filterStudent').select2({
+            placeholder: "Select...",
+            allowClear: true,
+            width: '100%'
+        });
+
+        // فلترة حسب الكورس
+        $('#filterCourse').on('change', function () {
+            table.column(0).search(this.value).draw();
+        });
+
+        // فلترة حسب الطالب
+        $('#filterStudent').on('change', function () {
+            table.column(1).search(this.value).draw();
+        });
+    });
+</script>
+
+
+@* Add Enrollment *@
+<script>
+    $(document).ready(function () {
+        $('#student').select2({
+        placeholder: "Select student",
+        allowClear: true,
+        width: "100%",
+        dropdownParent: $("#addEnrollmentModal")
+    });
+        // تحميل بيانات الكورسات عند فتح المودال
+        function loadCourses() {
+            $.getJSON('/Course/GetAll', function(response) {
+                if (response.success) {
+                    let options = '<option value="">Select course</option>';
+                    response.data.forEach(function(c) {
+                        options += `<option value="${c.courseId}">${c.name}</option>`;
+                    });
+                    $('#course').html(options);
+                } else {
+                    $('#course').html('<option value="">No courses found</option>');
+                }
+                // إعادة تهيئة الطلاب
+                $('#student').html('<option value="">Select student</option>');
+            });
+        }
+
+        // تعيين تاريخ التسجيل الافتراضي إلى اليوم الحالي
+        function setDefaultEnrollmentDate() {
+            const today = new Date().toISOString().split('T')[0];
+            $('#enrollmentDate').val(today);
+        }
+
+        // عند فتح المودال
+        $('#addEnrollmentModal').on('shown.bs.modal', function () {
+            loadCourses();
+            setDefaultEnrollmentDate();
+        });
+
+        // عند تغيير الكورس → تحميل الطلاب اللي مش مسجلين فيه
+        $('#course').change(function() {
+            const courseId = $(this).val();
+            if (!courseId) {
+                $('#student').html('<option value="">Select student</option>');
+                return;
+            }
+
+            $.getJSON(`/Enrollment/GetStudentsNotEnrolledInCourse/${courseId}`, function(response) {
+                if (response.success) {
+                    let options = '<option value="">Select student</option>';
+                    response.data.forEach(function(s) {
+                        options += `<option value="${s.id}">${s.fullName}</option>`;
+                    });
+                    $('#student').html(options);
+                } else {
+                    $('#student').html('<option value="">No students available</option>');
+                }
+            });
+        });
+
+        // إرسال الفورم
+        $('#enrollmentForm').submit(function (e) {
+            e.preventDefault();
+
+            const enrollmentData = {
+                StudentId: $('#student').val(),
+                CourseId: parseInt($('#course').val()),
+                EnrollmentDate: $('#enrollmentDate').val()
+            };
+
+            // تحقق من صحة المدخلات
+            if (!enrollmentData.StudentId || !enrollmentData.CourseId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Validation',
+                    text: 'Please select both course and student.'
+                });
+                return;
+            }
+
+            const token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: '/Enrollment/Create',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(enrollmentData),
+                headers: { 'RequestVerificationToken': token },
+                success: function (response) {
+                    $('#addEnrollmentModal').modal('hide');
+
+                    if (response.success) {
+                        const table = $('#enrollmentsTable').DataTable();
+                        table.row.add([
+                            response.data.courseName,
+                            response.data.studentName,
+                            response.data.enrollmentDate.split('T')[0],
+                            `<button class="btn btn-success btn-sm btn-edit-enrollment" data-id="${response.data.id}"><i class="fa fa-edit"></i></button>
+                             <button class="btn btn-danger btn-sm btn-delete-enrollment" data-id="${response.data.id}"><i class="fa fa-trash"></i></button>`
+                        ]).draw();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added!',
+                            text: 'Enrollment added successfully!',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        $('#enrollmentForm')[0].reset();
+                        $('#student').html('<option value="">Select student</option>');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Unexpected Error',
+                        text: xhr.responseText
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+@* Remove Enrollment *@
+<script>
+        $(document).ready(function () {
+        let deleteEnrollmentId = "";
+
+        // عند الضغط على زر الحذف
+        $(document).on('click', '.btn-delete-enrollment', function () {
+            deleteEnrollmentId = $(this).data('id');
+            const enrollmentName = $(this).closest('tr').find('td:eq(1)').text();
+
+            $('#deleteEnrollmentId').val(deleteEnrollmentId);
+            $('#deleteEnrollmentName').text(enrollmentName);
+
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteEnrollmentModal'));
+            deleteModal.show();
+        });
+
+        // عند إرسال الفورم
+        $("#deleteForm").on("submit", function (event) {
+            event.preventDefault();
+
+            const token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: '/Enrollment/Delete/' + deleteEnrollmentId,
+                type: 'POST',
+                headers: {
+                    'RequestVerificationToken': token
+                },
+                success: function (response) {
+                    // اخفاء المودال
+                    bootstrap.Modal.getInstance(document.getElementById('deleteEnrollmentModal')).hide();
+
+                    if (response.success) {
+                        // حذف الصف من DataTable
+                        const table = $('#enrollmentsTable').DataTable();
+                        const row = $(`button[data-id="${deleteEnrollmentId}"]`).closest('tr');
+                        table.row(row).remove().draw();
+
+                        // رسالة نجاح باستخدام SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: response.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // رسالة خطأ باستخدام SweetAlert2
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Unexpected Error',
+                        text: xhr.responseText
+                    });
+                }
+            });
+        });
+    });
+
+</script>

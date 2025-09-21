@@ -1,0 +1,80 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<!-- خلفية كاملة -->
+<div class="login-bg d-flex align-items-center justify-content-center vh-100">
+
+    <!-- الكرت بالنص -->
+    <div class="card shadow-lg rounded-4 border-0" style="max-width: 400px; width: 100%;">
+        <h2 class="card-header text-center text-white bg-gradient"
+            style="background: linear-gradient(135deg, #0d6efd, #0dcaf0);">
+            Welcome back!
+        </h2>
+
+        <div class="card-body p-4">
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <!-- Email -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-light"><i class="bi bi-envelope-fill"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label asp-for="Input.Email">Email</label>
+                    </div>
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+
+                <!-- Password -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-light"><i class="bi bi-lock-fill"></i></span>
+                    <div class="form-floating flex-grow-1">
+                        <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label asp-for="Input.Password">Password</label>
+                    </div>
+                </div>
+                <span asp-validation-for="Input.Password" class="text-danger small"></span>
+
+                <!-- Remember Me -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    <label class="form-check-label" asp-for="Input.RememberMe"></label>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-grid">
+                    <button id="login-submit" type="submit" class="btn btn-lg btn-primary shadow-sm">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Log in
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer text-center bg-light">
+            <p class="m-1">
+                <a id="forgot-password" asp-page="./ForgotPassword" class="text-decoration-none">Forgot your password?</a>
+            </p>
+            <p class="m-1">
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none">Register as a new user</a>
+            </p>
+            <p class="m-1">
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-decoration-none">Resend email confirmation</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- Bootstrap Icons -->
+
+    <style>
+        /* خلفية متدرجة فل سكرين */
+        .login-bg {
+            background:linear-gradient( 155deg, #ededed, #efefef)
+        }
+    </style>
+}

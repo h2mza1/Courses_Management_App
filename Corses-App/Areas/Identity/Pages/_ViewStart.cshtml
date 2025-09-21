@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+  //  var fullName = user.FullName;
+
+    if (user != null && await UserManager.IsInRoleAsync(user, "Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml"; // بدل المسار للـ Layout الأساسي
+    }
+}

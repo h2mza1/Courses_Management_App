@@ -1,0 +1,14 @@
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\bin\Debug\net8.0\Courses-App.Core.deps.json
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\bin\Debug\net8.0\Courses-App.Core.runtimeconfig.json
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\bin\Debug\net8.0\Courses-App.Core.dll
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\bin\Debug\net8.0\Courses-App.Core.pdb
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.csproj.AssemblyReference.cache
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.AssemblyInfoInputs.cache
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.AssemblyInfo.cs
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.csproj.CoreCompileInputs.cache
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.dll
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\refint\Courses-App.Core.dll
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.pdb
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\Courses-App.Core.genruntimeconfig.cache
+C:\Users\wwham\source\repos\Corses-App\Courses-App.Core\obj\Debug\net8.0\ref\Courses-App.Core.dll

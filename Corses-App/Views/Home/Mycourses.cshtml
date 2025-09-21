@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Courses_App.Core.DTO
+@model IEnumerable<EnrollmentReadDTO>
+<main class="main">
+    <!-- Page Title -->
+    <div class="page-title light-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Courses</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a asp-action="index" asp-controller="Home">Home</a></li>
+                    <li class="current">My Courses</li>
+                </ol>
+            </nav>
+        </div>
+    </div><!-- End Page Title -->
+    <section id="courses-2" class="courses-2 section">
+
+    <div class="courses-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="row">
+
+            @foreach (var course in Model)
+
+            {
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="@course.courseImage" alt="Course" class="img-fluid">
+                          
+                        </div>
+                        <div class="course-content">
+                            <div class="course-meta">
+                                <span class="category">@course.categoryName </span>
+                            </div>
+                            <h3>@course.CourseName</h3>
+                            <p>@course.EnrollmentDate</p>
+                            <div class="course-stats">
+                                <div class="stat">
+                                    <i class="bi bi-person-video"></i>
+                                    <span>@course.Videos vedios</span>
+                                </div>
+                               @*  <div class="stat">
+                                    <i class="bi bi-people"></i>
+                                    <span>@course.StudentId students</span>
+                                </div> *@
+                                @* <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <span>4.6 (156 reviews)</span>
+                                </div> *@
+                            </div>
+                            <div class="instructor-info">
+                                <img src="@course.InstructorImg" alt="@course.InstructorName" class="instructor-avatar">
+                                <span class="instructor-name">@course.InstructorName</span>
+                            </div>
+
+                                <a asp-action="Vedio" asp-controller="Home" asp-route-courseId="@course.CourseId" class="btn-course">Start Your Journy</a>
+
+                        </div>
+                    </div><!-- End Course Card -->
+                </div>
+
+            }
+
+
+        </div>
+    </div><!-- End Courses Grid -->
+    </section>
+</main>

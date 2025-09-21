@@ -1,0 +1,68 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="courseForm" enctype="multipart/form-data">
+                
+                <input type="hidden" id="courseId" name="Id" value="1" />
+
+                <div class="mb-3">
+                    <label>Title</label>
+                    <input type="text" class="form-control" id="title" name="Title" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control" id="description" name="Description"></textarea>
+                </div>
+                @* Categeory *@
+                <div class="mb-3" id="Categeory">
+                    <label>Categeory</label>
+                    <select id="CategeoryId" class="form-control" name="CategeoryId" required></select>
+                </div>
+                @* Price *@
+                <div class="mb-3">
+                    <label>Price</label>
+                    <input type="number" class="form-control" id="Price" name="Price" required />
+                </div>
+                @* Start Date  *@
+                <div class="mb-3">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control" id="StartDate" name="StartDate" required />
+                </div>
+
+                @* End Date  *@
+                <div class="mb-3">
+                    <label>End Date</label>
+                    <input type="date" class="form-control" id="EndDate" name="EndDate" required />
+                </div>
+                <div class="mb-3" id="instructors">
+                    <label>Instructor</label>
+                    <select id="instructorId" class="form-control" name="InstructorId"  required></select>
+                </div>
+               @* Image *@
+                <div class="mb-3">
+                    <label>Course Image</label>
+                    <input type="file" id="image" name="Image" multiple accept="image/*" class="form-control" />
+                </div>
+                @* Videos *@
+                <div class="mb-3">
+                    <label>Course Videos</label>
+                    <input type="file" id="videos" name="VideoFiles" multiple accept="video/*" class="form-control" />
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

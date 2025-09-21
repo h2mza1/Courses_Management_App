@@ -1,0 +1,35 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="AddCategoryModal" tabindex="-1" aria-labelledby="AddCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddCategoryModalLabel">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="AddCategoryForm" enctype="multipart/form-data" method="post">
+                @* Id *@
+                <input type="hidden" id="AddCategoryId" name="Id" />
+
+                @* Name *@
+                <div class="mb-3">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="Name" name="Name" required />
+                </div>
+
+                @* Icon *@
+                <div class="mb-3">
+                    <label>Icon</label>
+                    <input type="file" class="form-control" id="Icon" name="Icon" />
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

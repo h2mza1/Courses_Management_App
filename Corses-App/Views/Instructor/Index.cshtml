@@ -1,0 +1,273 @@
+﻿@model IEnumerable<Courses_App.Core.DTO.InstructorReadDto>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Instructors Management";
+}
+
+<div class="container my-4">
+    <!-- العنوان والفلاتر -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold text-primary">
+            <i class="fa fa-chalkboard-teacher"></i> @ViewData["Title"]
+        </h2>
+        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            <i class="fa fa-plus-circle"></i> Add Instructor
+        </button>
+    </div>
+
+    <!-- فلاتر -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <select id="salaryFilter" class="form-select">
+                <option value="">All Salaries</option>
+                <option value="low">Less than 1000</option>
+                <option value="mid">1000 - 3000</option>
+                <option value="high">More than 3000</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="emailFilter" class="form-select">
+                <option value="">All Emails</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="yahoo.com">yahoo.com</option>
+                <option value="outlook.com">outlook.com</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- الجدول -->
+    <div class="card shadow-sm rounded-3 table-responsive">
+        <div class="card-body">
+            <table id="usersTable" class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>UserName</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Salary</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td><span class="badge bg-secondary">#</span></td>
+                            <td><span class="text-primary">@user.UserName</span></td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>@user.PhoneNumber</td>
+                            <td><span class="badge bg-success">@user.Sallary</span></td>
+                            <td>
+                                <button class="btn btn-outline-success btn-sm btn-update-user" data-id="@user.UserId" data-name="@user.FullName">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm btn-delete-user" data-id="@user.UserId" data-name="@user.FullName">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* Modals *@
+@await Html.PartialAsync("~/Views/Modals/AddInstructorModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/deleteStudentModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/UpdateUserModal.cshtml")
+
+<script>
+    $(document).ready(function () {
+        // DataTable
+        var table = $('#usersTable').DataTable({
+            language: {
+                search: "Search:",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ instructors",
+                paginate: {
+                    previous: "Prev",
+                    next: "Next"
+                }
+            }
+        });
+
+        // فلترة الرواتب
+        $('#salaryFilter').on('change', function () {
+            var val = $(this).val();
+            table.rows().every(function () {
+                var salary = parseFloat($(this.node()).find('td:eq(5)').text().replace(/[^0-9.]/g, '')) || 0;
+                if ((val === "low" && salary >= 1000) ||
+                    (val === "mid" && (salary < 1000 || salary > 3000)) ||
+                    (val === "high" && salary <= 3000)) {
+                    $(this.node()).hide();
+                } else {
+                    $(this.node()).show();
+                }
+            });
+        });
+
+        // فلترة الايميلات
+        $('#emailFilter').on('change', function () {
+            var val = $(this).val().toLowerCase();
+            table.column(3).search(val).draw();
+        });
+
+        // إضافة إنستركتور
+        $("#addUserForm").on("submit", function (event) {
+            event.preventDefault();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            let formData = {
+                FullName: $("#Name").val(),
+                Email: $("#UserName").val(),
+                Phone: $("#Phone").val(),
+                Sallary: $("#Sallary").val(),
+                Password: $("#userPassword").val(),
+                ConfirmPassword: $("#confirmPassword").val()
+            };
+
+            if(formData.Password !== formData.ConfirmPassword){
+                Swal.fire("Error", "Passwords do not match.", "error");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Create", "Instructor")',
+                type: 'POST',
+                data: formData,
+                headers: { 'RequestVerificationToken': token },
+                success: function (response) {
+                    if (response.success) {
+                        var user = response.data;
+                        var newRow = `
+                            <tr>
+                                <td><span class="badge bg-secondary">#</span></td>
+                                <td>${user.userName}</td>
+                                <td>${user.fullName}</td>
+                                <td>${user.email}</td>
+                                <td>${user.phoneNumber}</td>
+                                <td><span class="badge bg-success">$${user.sallary}</span></td>
+                                <td>
+                                    <button class="btn btn-outline-success btn-sm btn-update-user" data-id="${user.userId}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm btn-delete-user" data-id="${user.userId}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>`;
+                        table.row.add($(newRow)).draw();
+                        bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
+                        $("#addUserForm")[0].reset();
+                        Swal.fire("Success", response.message, "success");
+                    } else {
+                        Swal.fire("Error", response.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Failed to add instructor", "error");
+                }
+            });
+        });
+
+        // تحديث إنستركتور
+        $(document).on("click", ".btn-update-user", function () {
+            let row = $(this).closest("tr");
+            $("#updateUserId").val($(this).data("id"));
+            $("#updateName").val(row.find("td:nth-child(3)").text().trim());
+            $("#updateUserName").val(row.find("td:nth-child(4)").text().trim());
+            $("#updatePhone").val(row.find("td:nth-child(5)").text().trim());
+            $("#updateSallary").val(row.find("td:nth-child(6)").text().trim());
+            $("#updatePassword").val('');
+            $("#updateconfirmPassword").val('');
+
+            new bootstrap.Modal(document.getElementById('updateUserModal')).show();
+        });
+
+        $(document).on("submit", "#updateUserForm", function (event) {
+            event.preventDefault();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            let selectedUserId = $("#updateUserId").val();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '/Instructor/Update/' + selectedUserId,
+                type: 'POST',
+                data: formData,
+                headers: { 'RequestVerificationToken': token },
+                success: function (response) {
+                    if (response.success) {
+                        const user = response.data;
+                        const row = $(`.btn-update-user[data-id="${user.id}"]`).closest("tr");
+                        table.row(row).data([
+                            "#",
+                            user.email,
+                            user.fullName,
+                            user.email,
+                            user.phone || 0,
+                            `<span class="badge bg-success">$${user.sallary}</span>`,
+                            `<button class="btn btn-outline-success btn-sm btn-update-user" data-id="${user.id}">
+                                <i class="fa fa-edit"></i></button>
+                             <button class="btn btn-outline-danger btn-sm btn-delete-user" data-id="${user.id}">
+                                <i class="fa fa-trash"></i></button>`
+                        ]).draw();
+                        bootstrap.Modal.getInstance(document.getElementById('updateUserModal')).hide();
+                        $("#updateUserForm")[0].reset();
+                        Swal.fire("Updated!", response.message, "success");
+                    } else {
+                        Swal.fire("Error", response.message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Failed to update instructor", "error");
+                }
+            });
+        });
+
+        // حذف إنستركتور
+        $(document).on('click', '.btn-delete-user', function () {
+            let deleteUserId = $(this).data('id');
+            let userName = $(this).data('name');
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: `Delete instructor: ${userName}?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete",
+                cancelButtonText: "Cancel",
+                confirmButtonColor: "#d33"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Instructor/Delete/' + deleteUserId,
+                        type: 'POST',
+                        headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                        success: function (response) {
+                            if (response.success) {
+                                const row = $(`button[data-id="${deleteUserId}"]`).closest('tr');
+                                table.row(row).remove().draw();
+                                Swal.fire("Deleted!", response.message, "success");
+                            } else {
+                                Swal.fire("Error", response.message, "error");
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("Error", "Failed to delete instructor", "error");
+                        }
+                    });
+                }
+            });
+        });
+
+        // Show/Hide password fields (update)
+        $("#check").change(function(){
+            if($(this).is(":checked")) $("#passwordFields").slideDown();
+            else $("#passwordFields").slideUp();
+        });
+    });
+</script>

@@ -1,0 +1,63 @@
+﻿<!-- The Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserModalLabel">update User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="updateUserForm" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" id="updateUserId" name="Id" /> <!-- مهم جداً -->
+
+                    <div class="mb-3">
+                        <label for="updateName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="updateName" name="FullName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="updateUserName" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="updateUserName" name="Email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="updatePhone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="updatePhone" name="Phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateSallary" class="form-label">Sallary</label>
+                        <input type="text" class="form-control" id="updateSallary" name="Sallary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="check" class="form-label">change password</label>
+                        <input type="checkbox" class="form-control" id="check">
+                    </div>
+                    <div id="passwordFields" style="display: none;">
+                   
+                    <div class="mb-3">
+                        <label for="updatePassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="updatePassword" name="NewPassword">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="updateconfirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="updateconfirmPassword" name="ConfirmPassword">
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@using Courses_App.Core.Models
+@using Microsoft.AspNetCore.Identity
+@using Corses_App.Areas.Identity
+
+
+Corses_App.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    //var fullName = user.FullName;
+
+    if (user != null && await UserManager.IsInRoleAsync(user, "Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml"; // بدل المسار للـ Layout الأساسي
+    }
+}
+

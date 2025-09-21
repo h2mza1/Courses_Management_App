@@ -1,0 +1,129 @@
+﻿@using Courses_App.Core.DTO
+@model IEnumerable<CourseReadDTO>
+
+<div class="container mt-4">
+    <!-- Page Title -->
+    <div class="page-title light-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Courses</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a asp-action="index" asp-controller="Home">Home</a></li>
+                    <li><a asp-action="Courses" asp-controller="Home">Courses</a></li>
+
+                    <li class="current">@Model?.First()?.Name</li>
+                </ol>
+            </nav>
+        </div>
+    </div><!-- End Page Title -->
+    <h2 class="mb-4 text-center fw-bold">📚 Courses by Category</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center shadow-sm">
+             No courses found for this category.
+        </div>
+    }
+    else
+    {
+        <section id="courses-2" class="courses-2 section ">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="courses-header" data-aos="fade-left" data-aos-delay="100">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" placeholder="Search courses...">
+                            </div>
+
+                        </div>
+
+                        <div class="courses-grid" data-aos="fade-up" data-aos-delay="200">
+                            <div class="row">
+
+                                @foreach (var course in Model)
+
+                                {
+
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="course-card">
+                                            <div class="course-image">
+                                                <img src="@course.courseImage " alt="No Image" title="@course.Name" class="img-fluid" loading="lazy">
+                                                @{
+                                                    if (course.Price == 0)
+                                                    {
+                                                        <div class="course-badge badge-free">Free</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="course-badge badge-free">@course.Price</div>
+
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="course-content">
+                                                <div class="course-meta">
+                                                    <span class="category">@course.categeoryName</span>
+                                                </div>
+                                                <h3>@course.Name</h3>
+                                                <p>@course.Description</p>
+                                                <div class="course-stats">
+                                                    <div class="stat">
+                                                        <i class="bi bi-clock"></i>
+                                                        <span>@course.VideoCount vedios</span>
+                                                    </div>
+                                                    <div class="stat">
+                                                        <i class="bi bi-people"></i>
+                                                        <span>@course.EnrollmentsCount students</span>
+                                                    </div>
+                                                    <div class="rating">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star"></i>
+                                                        <span>4.6 (156 reviews)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="instructor-info">
+                                                    <img src="@course.instructorImage" alt="@course.InstructorName" class="instructor-avatar">
+                                                    <span class="instructor-name">@course.InstructorName</span>
+                                                </div>
+                                                @{
+                                                    if (course.Price == 0)
+                                                    {
+                                                        <a asp-action="Enroll" asp-controller="Home" asp-route-courseId="@course.courseId" role="button" class="btn-course">Start Free Course</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="Enroll" asp-controller="Home" asp-route-courseId="@course.courseId" role="button" class="btn-course">Enroll Now</a>
+
+                                                    }
+                                                }
+                                            </div>
+                                        </div><!-- End Course Card -->
+                                    </div>
+
+                                }
+
+
+                            </div>
+                        </div><!-- End Courses Grid -->
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    
+        <!-- /Courses 2 Section -->
+    }
+</div>

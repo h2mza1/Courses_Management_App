@@ -1,0 +1,222 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\wwham\\source\\repos\\Corses-App\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/HAMZA_SQLEXPRESS/CoursesProject/True/SqlTable/dbo.Users.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\controllers\\categeorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\controllers\\categeorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\views\\categeory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\views\\categeory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/HAMZA_SQLEXPRESS/CoursesProject/True/SqlTable/dbo.Categeories.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528D6C2D-F543-4E60-AEE7-55B4ACA3DEBC}|Corses-App.Data\\Corses-App.Data.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app.data\\repostory\\icategeoryrepostory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528D6C2D-F543-4E60-AEE7-55B4ACA3DEBC}|Corses-App.Data\\Corses-App.Data.csproj|solutionrelative:corses-app.data\\repostory\\icategeoryrepostory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\views\\instructor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\views\\instructor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\views\\modals\\addinstructormodal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\views\\modals\\addinstructormodal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\views\\student\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\views\\student\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BD4BC4-7EE1-4748-BB70-F3A749E262D6}|Courses-App.Core\\Courses-App.Core.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\courses-app.core\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BD4BC4-7EE1-4748-BB70-F3A749E262D6}|Courses-App.Core\\Courses-App.Core.csproj|solutionrelative:courses-app.core\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\controllers\\instructorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\controllers\\instructorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|c:\\users\\wwham\\source\\repos\\corses-app\\corses-app\\views\\modals\\addstudentmodal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{388E4164-E96B-4F0B-9DFC-3041C918E3B3}|Corses-App\\Corses-App.csproj|solutionrelative:corses-app\\views\\modals\\addstudentmodal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\wwham\\Downloads\\PersonalData.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "dbo.Users [Data]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/HAMZA_SQLEXPRESS/CoursesProject/True/SqlTable/dbo.Users.sql",
+              "ToolTip": "dbo.Users [Data]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-09-20T22:56:32.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Categeory\\Index.cshtml",
+              "RelativeDocumentMoniker": "Corses-App\\Views\\Categeory\\Index.cshtml",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Categeory\\Index.cshtml",
+              "RelativeToolTip": "Corses-App\\Views\\Categeory\\Index.cshtml",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMEAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-20T22:28:12.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "dbo.Categeories [Data]",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/HAMZA_SQLEXPRESS/CoursesProject/True/SqlTable/dbo.Categeories.sql",
+              "ToolTip": "dbo.Categeories [Data]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-09-20T22:25:34.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ICategeoryRepostory.cs",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App.Data\\Repostory\\ICategeoryRepostory.cs",
+              "RelativeDocumentMoniker": "Corses-App.Data\\Repostory\\ICategeoryRepostory.cs",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App.Data\\Repostory\\ICategeoryRepostory.cs",
+              "RelativeToolTip": "Corses-App.Data\\Repostory\\ICategeoryRepostory.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:08:58.665Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CategeoryController.cs",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Controllers\\CategeoryController.cs",
+              "RelativeDocumentMoniker": "Corses-App\\Controllers\\CategeoryController.cs",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Controllers\\CategeoryController.cs",
+              "RelativeToolTip": "Corses-App\\Controllers\\CategeoryController.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAA0wEIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:04:48.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Courses-App.Core\\DTO\\UserDto.cs",
+              "RelativeDocumentMoniker": "Courses-App.Core\\DTO\\UserDto.cs",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Courses-App.Core\\DTO\\UserDto.cs",
+              "RelativeToolTip": "Courses-App.Core\\DTO\\UserDto.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBsAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T21:53:04.022Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AddInstructorModal.cshtml",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Modals\\AddInstructorModal.cshtml",
+              "RelativeDocumentMoniker": "Corses-App\\Views\\Modals\\AddInstructorModal.cshtml",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Modals\\AddInstructorModal.cshtml",
+              "RelativeToolTip": "Corses-App\\Views\\Modals\\AddInstructorModal.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACYAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-20T21:51:35.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Student\\Index.cshtml",
+              "RelativeDocumentMoniker": "Corses-App\\Views\\Student\\Index.cshtml",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Student\\Index.cshtml",
+              "RelativeToolTip": "Corses-App\\Views\\Student\\Index.cshtml",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAA4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-20T21:36:58.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AddStudentModal.cshtml",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Modals\\AddStudentModal.cshtml",
+              "RelativeDocumentMoniker": "Corses-App\\Views\\Modals\\AddStudentModal.cshtml",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Modals\\AddStudentModal.cshtml",
+              "RelativeToolTip": "Corses-App\\Views\\Modals\\AddStudentModal.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-20T21:32:28.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Instructor\\Index.cshtml",
+              "RelativeDocumentMoniker": "Corses-App\\Views\\Instructor\\Index.cshtml",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Views\\Instructor\\Index.cshtml",
+              "RelativeToolTip": "Corses-App\\Views\\Instructor\\Index.cshtml",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAwwIUAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-20T21:24:57.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "InstructorController.cs",
+              "DocumentMoniker": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Controllers\\InstructorController.cs",
+              "RelativeDocumentMoniker": "Corses-App\\Controllers\\InstructorController.cs",
+              "ToolTip": "C:\\Users\\wwham\\source\\repos\\Corses-App\\Corses-App\\Controllers\\InstructorController.cs",
+              "RelativeToolTip": "Corses-App\\Controllers\\InstructorController.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAwwEsAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T21:23:07.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PersonalData.json",
+              "DocumentMoniker": "C:\\Users\\wwham\\Downloads\\PersonalData.json",
+              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\PersonalData.json",
+              "ToolTip": "C:\\Users\\wwham\\Downloads\\PersonalData.json",
+              "RelativeToolTip": "..\\..\\..\\Downloads\\PersonalData.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-19T23:09:39.808Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+﻿<!-- زر لفتح المودال -->
+
+
+<!-- المودال -->
+<div class="modal fade" id="addEnrollmentModal" tabindex="-1" aria-labelledby="addEnrollmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEnrollmentModalLabel">Add Enrollment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="enrollmentForm">
+                    @Html.AntiForgeryToken()
+
+                    <!-- الكورس -->
+                    <div class="mb-3">
+                        <label for="course" class="form-label">Course</label>
+                        <select class="form-select" id="course" name="courseId" required>
+                            <option value="id">Loading courses...</option>
+                        </select>
+                    </div>
+                    <!-- الطالب -->
+                    <div class="mb-3">
+                        <label for="student" class="form-label">Student</label>
+                        <select class="form-select" id="student" name="studentId" required>
+                            <option value="">Loading students...</option>
+                        </select>
+                    </div>
+
+                    <!-- تاريخ التسجيل -->
+                    <div class="mb-3">
+                        <label for="enrollmentDate" class="form-label">Enrollment Date</label>
+                        <input type="date" class="form-control" id="enrollmentDate" name="enrollmentDate" required>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="enrollmentForm" class="btn btn-primary">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

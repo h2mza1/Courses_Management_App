@@ -1,0 +1,35 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCourseModalLabel">Update Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="updateCategoryForm" enctype="multipart/form-data" method="post">
+                @* Id *@
+                <input type="hidden" id="updateCategoryId" name="Id" />
+                @* Name *@
+                <div class="mb-3">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="updateName" name="name" required />
+                </div>
+                @* Icon *@
+                <div class="mb-3">
+                    <label>Icon</label>
+                    <input type="file" class="form-control" id="updateIcon" name="icon"/>
+                </div>
+
+                
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Courses_App.Core.Models
+@inject SignInManager<User> signInManager;
+
+@{
+    var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? User.Identity.Name;
+    var profilePic = User.Claims.FirstOrDefault(c => c.Type == "ProfilePicture")?.Value ?? "/img/profilePicture/profileImage.jpg";
+    var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Learner</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="~/img/favicon.png" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="~/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Main CSS -->
+    <link href="~/css/main.css" rel="stylesheet" />
+
+    @RenderSection("Styles", required: false)
+
+    <style>
+        .btn-div {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .btn-more-courses {
+            border-radius: 46%;
+            width: 20%;
+            color: #136ad5;
+            background-color: white;
+            cursor: pointer;
+            border: 2px solid #136ad5;
+            padding: 17px 47px;
+        }
+
+            .btn-more-courses:hover {
+                color: white;
+                background-color: #136ad5;
+            }
+    </style>
+</head>
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center sticky-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a asp-controller="Home" asp-action="Index" class="logo d-flex align-items-center me-auto">
+                <img src="~/img/logo.webp" alt="logo" />
+                <h1 class="sitename">Learner</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li>
+                            <a asp-controller="Home" asp-action="MyCourses" asp-route-userId="@userId"
+                               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "MyCourses" ? "active" : "")">MyCourses</a>
+                        </li>
+                    }
+                    <li>
+                        <a asp-controller="Home" asp-action="Index"
+                           class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">Home</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Courses"
+                           class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Courses" ? "active" : "")">Courses</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Instructors"
+                           class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Instructors" ? "active" : "")">Instructors</a>
+                    </li>
+                    <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="toggle-dropdown d-flex align-items-center">
+                                <img src="@profilePic" alt="User"
+                                     class="rounded-circle me-2"
+                                     style="width:40px; height:40px; object-fit:cover;" />
+                                <span>@fullName</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Activity Log</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout"
+                                          asp-route-returnUrl="@Url.Action("Index", "Home")">
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><partial name="_LoginPartial.cshtml" /></li>
+                    }
+                </ul>
+
+                <!-- Mobile Nav Toggle -->
+                <button class="mobile-nav-toggle d-xl-none bi bi-list" type="button"></button>
+            </nav>
+
+            <a class="btn-getstarted" asp-action="Enroll" asp-controller="Home">Enroll Now</a>
+        </div>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer accent-background">
+        <div class="container text-center mt-4">
+            <p>© <span>@DateTime.Now.Year</span> <strong class="px-1 sitename">Learner</strong> All Rights Reserved</p>
+            <div class="credits">
+                Designed by <strong>Hamza Salem</strong>
+                <div class=" gap-3 text-center">
+                    <a href="#" class="text-primary fs-5"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-info fs-5"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-danger fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/hamza-salem-533468332/" class="text-dark fs-5"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS -->
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
+    <!-- Custom JS -->
+    <script src="~/js/scripts.js"></script>
+    <script src="~/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

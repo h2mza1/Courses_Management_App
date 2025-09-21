@@ -1,0 +1,17 @@
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Corses-App.Data.deps.json
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Corses-App.Data.runtimeconfig.json
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Corses-App.Data.dll
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Corses-App.Data.pdb
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Courses-App.Core.dll
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\bin\Release\net8.0\Courses-App.Core.pdb
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.csproj.AssemblyReference.cache
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.AssemblyInfoInputs.cache
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.AssemblyInfo.cs
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.csproj.CoreCompileInputs.cache
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-A.8706014D.Up2Date
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.dll
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\refint\Corses-App.Data.dll
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.pdb
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\Corses-App.Data.genruntimeconfig.cache
+C:\Users\wwham\source\repos\Corses-App\Corses-App.Data\obj\Release\net8.0\ref\Corses-App.Data.dll

@@ -1,0 +1,432 @@
+﻿@model IEnumerable<Courses_App.Core.DTO.CourseReadDTO>
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Courses Dashboard";
+}
+
+<div class="container text-center my-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="d-flex justify-content-start mb-3">
+        <button type="button" class="btn btn-primary" id="btnAddCourse">
+            <i class="fa fa-plus"></i> Add Course
+        </button>
+    </div>
+</div>
+
+<!-- ✅ الفلاتر -->
+<div class="container mb-3">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <select id="filterCategory" class="form-select">
+                <option value="">-- Filter by Category --</option>
+                @foreach (var c in Model.Select(m => m.categeoryName ?? "").Distinct())
+                {
+                    if (!string.IsNullOrEmpty(c))
+                    {
+                        <option value="@c">@c</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="filterInstructor" class="form-select">
+                <option value="">-- Filter by Instructor --</option>
+                @foreach (var i in Model.Select(m => m.InstructorName ?? "").Distinct())
+                {
+                    if (!string.IsNullOrEmpty(i))
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ كروت الكورسات -->
+<div class="container">
+    <div class="row g-4" id="coursesGrid">
+        @foreach (var course in Model.Take(3))
+        {
+            <div class="col-lg-3 col-md-6 course-card"
+                 data-category="@course.categeoryName"
+                 data-instructor="@course.InstructorName">
+                <div class="card shadow-sm h-100 text-center p-3">
+                    <div class="mb-3">
+                        <img src="@course.courseImage" alt="@course.Name"
+                             width="80" height="80" class="rounded-circle object-fit-cover" />
+                    </div>
+                    <h5 class="card-title">@course.Name</h5>
+                    <p class="text-muted mb-1">Instructor: <b>@course.InstructorName</b></p>
+                    <p class="text-muted mb-1">
+                        Category:
+                        <span class="badge bg-primary">@course.categeoryName</span>
+                    </p>
+                    <p class="fw-bold text-success">@String.Format("{0:C}", course.Price)</p>
+                    <p class="small text-muted">Duration: @course.time</p>
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-success btn-sm btn-edit-course" data-id="@course.courseId"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-info btn-sm btn-info-course" data-id="@course.courseId"><i class="fa fa-info"></i></button>
+                        <button class="btn btn-danger btn-sm btn-delete-course" data-id="@course.courseId"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr class="my-4" />
+
+<!-- ✅ جدول الكورسات -->
+<div class="container">
+    <div class="table-responsive">
+        <table id="coursesTable" class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Instructor</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Videos</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr data-category="@course.categeoryName" data-instructor="@course.InstructorName">
+                        <td><img src="@course.courseImage" width="40" height="40" class="rounded-circle" /></td>
+                        <td>@course.Name</td>
+                        <td>@course.InstructorName</td>
+                        <td>@course.categeoryName</td>
+                        <td>@String.Format("{0:C}", course.Price)</td>
+                        <td>@course.time</td>
+                        <td>
+                            @if (course.VideoCount > 0)
+                            {
+                                <a asp-action="Index" asp-controller="Video" asp-route-id="@course.courseId" class="badge bg-info">Show Videos</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Index" asp-controller="Video" asp-route-id="@course.courseId" class="badge bg-warning">Add Videos</a>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm btn-edit-course" data-id="@course.courseId"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-info btn-sm btn-info-course" data-id="@course.courseId"><i class="fa fa-info"></i></button>
+                            <button class="btn btn-danger btn-sm btn-delete-course" data-id="@course.courseId"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="container text-center my-3">
+            <button id="btnViewAll" class="btn btn-outline-primary">
+                <i class="fa fa-arrow-down"></i> View More Courses
+            </button>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Views/Modals/UpdateCourseModal.cshtml")
+@await Html.PartialAsync("~/Views/Modals/CourseModal.cshtml")
+
+<!-- ✅ Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.full.min.js"></script>
+
+
+<!-- ✅ Select2 -->
+<script>
+    $("#instructorId").select2({ placeholder:"__Select Instructor__", allowClear:true, width:"100%", dropdownParent:$("#instructors") });
+    $("#CategeoryId").select2({ placeholder:"__Select Category__", allowClear:true, width:"100%", dropdownParent:$("#Categeory") });
+    $("#filterCategory").select2({ placeholder:"__Select Category__", allowClear:true, width:"100%" });
+    $("#filterInstructor").select2({ placeholder:"__Select Instructor__", allowClear:true, width:"100%" });
+
+    function loadInstructors(selectedId = null, targetSelect = '#instructorId') {
+        $.get('/Instructor/GetAll', function(data) {
+            let select = $(targetSelect);
+            select.empty().append('<option value="">-- Select Instructor --</option>');
+            (data.instructors || []).forEach(i => {
+                select.append(`<option value="${i.id}" ${i.id == selectedId ? 'selected' : ''}>${i.user.fullName}</option>`);
+            });
+        });
+    }
+
+    function loadCategories(selectedId = null, targetSelect = '#CategeoryId') {
+        $.get('/Categeory/GetAll', function(data) {
+            let select = $(targetSelect);
+            select.empty().append('<option value="">-- Select Category --</option>');
+            let list = Array.isArray(data) ? data : data.categeories || [];
+            list.forEach(c => {
+                select.append(`<option value="${c.id}" ${c.id == selectedId ? 'selected' : ''}>${c.name}</option>`);
+            });
+        });
+    }
+</script>
+<script>
+    function filterCourses() {
+        let cat = ($('#filterCategory').val() || "").toLowerCase().trim();
+        let inst = ($('#filterInstructor').val() || "").toLowerCase().trim();
+
+        // فلترة الكروت
+        $('.course-card').each(function () {
+            let show = true;
+            let c = ($(this).data('category') || "").toLowerCase().trim();
+            let i = ($(this).data('instructor') || "").toLowerCase().trim();
+
+            console.log("Selected Cat:", cat, "Card Cat:", c);
+            console.log("Selected Inst:", inst, "Card Inst:", i);
+
+            if (cat && c !== cat) show = false;
+            if (inst && i !== inst) show = false;
+            $(this).toggle(show);
+        });
+
+        // فلترة الجدول
+        coursesTable.column(3).search(cat || '', false, true);   // Category col
+        coursesTable.column(2).search(inst || '', false, true);  // Instructor col
+        coursesTable.draw();
+    }
+
+    let coursesTable;
+    $(document).ready(function () {
+        coursesTable = $('#coursesTable').DataTable();
+        $('#filterCategory, #filterInstructor').on('change', filterCourses);
+    });
+
+</script>
+
+
+<!-- ✅ Add Course -->
+<script>
+    $(document).ready(function() {
+        $('#btnAddCourse').click(function() {
+            $('#courseModal').modal('show');
+            loadInstructors();
+            loadCategories();
+            $('#courseForm')[0].reset();
+            $('#courseId').val(0);
+        });
+
+        $('#courseForm').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: '/Course/CreateWithVideos',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                success: function(response) {
+                    if(response.success){
+                        let course = response.data;
+
+                        let rowNode = coursesTable.row.add([
+                            `<img src="${course.courseImage}" width="40" height="40" class="rounded-circle"/>`,
+                            course.name,
+                            $('#instructorId option:selected').text() || 'No Instructor',
+                            $('#CategeoryId option:selected').text() || 'No Category',
+                            course.price ?? 0,
+                            course.time,
+                            (course.videoCount > 0) ? `<a href="/Video/Index/${course.courseId}">Show Videos</a>` : 'No Videos',
+                            `<button class="btn btn-success btn-sm btn-edit-course" data-id="${course.courseId}"><i class="fa fa-edit"></i></button>
+                             <button class="btn btn-info btn-sm btn-info-course" data-id="${course.courseId}"><i class="fa fa-info"></i></button>
+                             <button class="btn btn-danger btn-sm btn-delete-course" data-id="${course.courseId}"><i class="fa fa-trash"></i></button>`
+                        ]).draw(false).node();
+
+                        $(rowNode).attr('data-id', course.courseId);
+                        $('#courseModal').modal('hide');
+                        Swal.fire('Success', response.message, 'success');
+                        $('#courseForm')[0].reset();
+                    }
+                    else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'An error occurred while adding the course', 'error');
+                }
+            });
+        });
+    });
+</script>
+
+<!-- ✅ Edit Course -->
+<script>
+    $(document).ready(function() {
+        $('#coursesTable').on('click', '.btn-edit-course', function() {
+            let id = $(this).data('id');
+            $.get(`/Course/Edit/${id}`, function(response) {
+                if(response.success){
+                     let data = response.data;
+                    // let start = new Date(data.startDate);
+                    // let end = new Date(data.endDate);
+                    $('#updateCourseId').val(data.id);
+                    $('#updateTitle').val(data.title);
+                    $('#updateDescription').val(data.description);
+                    $('#updatePrice').val(data.price);
+                    $('#updateStartDate').val(data.startDate.split('T')[0]);
+                    $('#updateEndDate').val(data.endDate.split('T')[0]);
+
+                    console.log(data.startDate, data.endDate);
+
+                    loadInstructors(data.instructorId, '#updateInstructorId');
+                    loadCategories(data.categeory, '#updateCategeoryId');
+                    $('#updateCourseModal').modal('show');
+                }
+            });
+        });
+
+        $('#updateCourseForm').submit(function(e) {
+            e.preventDefault();
+            let id = $('#updateCourseId').val();
+            let formData = {
+                Title: $('#updateTitle').val(),
+                Description: $('#updateDescription').val(),
+                InstructorId: $('#updateInstructorId').val(),
+                CategeoryId: $('#updateCategeoryId').val(),
+                Price: $('#updatePrice').val(),
+                StartDate:$('#updateStartDate').val(),
+                EndDate:$('#updateEndDate').val()
+            };
+            $.ajax({
+                url: `/Course/ConfirmEdit/${id}`,
+                method: 'POST',
+                data: formData,
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                success: function(response) {
+                    if(response.success){
+                        let row = $(`#coursesTable button.btn-edit-course[data-id="${id}"]`).closest('tr');
+                        row.find('td:eq(1)').text(response.data.name);
+                        row.find('td:eq(2)').text($('#updateInstructorId option:selected').text());
+                        row.find('td:eq(3)').text($('#updateCategeoryId option:selected').text());
+                        row.find('td:eq(4)').text(response.data.price ?? 0);
+                        row.find('td:eq(5)').text(response.data.time);
+                        $('#updateCourseModal').modal('hide');
+                        Swal.fire('Success', response.message, 'success');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<!-- ✅ Delete Course -->
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.btn-delete-course', function() {
+            let id = $(this).data('id');
+            let row = $(this).closest('tr');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: `/Course/Delete/${id}`,
+                        type: 'POST',
+                        headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                        success: function(response){
+                            if(response.success){
+                                coursesTable.row(row).remove().draw();
+                                Swal.fire('Deleted!', response.message, 'success');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<!-- ✅ Course Information -->
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.btn-info-course', function() {
+            let id = $(this).data('id');
+            $.ajax({
+                url: `/Course/GetById/${id}`,
+                type: 'GET',
+                success: function(response) {
+                    if (response) {
+                        Swal.fire({
+                            title: response.name,
+                            imageUrl : response.courseImage,
+                            html: `
+                                <p><b>Category:</b> ${response.categeoryName}</p>
+                                <p><b>Description:</b> ${response.description}</p>
+                                <p><b>Price:</b> ${response.price} $</p>
+                                <p><b>Instructor:</b> ${response.instructorName}</p>
+                                <p><b>Videos:</b> ${response.videoCount}</p>
+                                <p><b>Enrollments:</b> ${response.enrollmentsCount}</p>
+                                <p><b>Start Date:</b> ${new Date(response.startDate).toLocaleDateString()}</p>
+                                <p><b>End Date:</b> ${new Date(response.endDate).toLocaleDateString()}</p>
+                            `,
+                            icon: 'info',
+                            confirmButtonText: 'Close'
+                        });
+                    } else {
+                        Swal.fire('Error!','Course Not Found','error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!','Server Error','error');
+                }
+            });
+        });
+    });
+</script>
+
+<!-- ✅ Load More -->
+<script>
+    let skip = 6;
+    const take = 6;
+    $(document).ready(function() {
+        $('#btnViewAll').click(function() {
+            $.ajax({
+                url: `/Course/GetMoreCourses?skip=${skip}&take=${take}`,
+                type: 'GET',
+                success: function(data) {
+                    if (!data || data.length === 0) {
+                        Swal.fire({ icon: 'info', title: 'No more courses', text: 'No more courses found' });
+                        return;
+                    }
+
+                    data.forEach(course => {
+                        let rowNode = coursesTable.row.add([
+                            `<img src="${course.courseImage}" width="40" height="40" class="rounded-circle"/>`,
+                            course.name,
+                            course.instructorName,
+                            course.categeoryName || 'No Category',
+                            course.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(course.price) : '$0.00',
+                            course.time,
+                            (course.videoCount > 0) ? `<a href="/Video/Index/${course.courseId}">Show Videos</a>` : 'No Videos',
+                            `<button class="btn btn-success btn-sm btn-edit-course" data-id="${course.courseId}"><i class="fa fa-edit"></i></button>
+                             <button class="btn btn-info btn-sm btn-info-course" data-id="${course.courseId}"><i class="fa fa-info"></i></button>
+                             <button class="btn btn-danger btn-sm btn-delete-course" data-id="${course.courseId}"><i class="fa fa-trash"></i></button>`
+                        ]).draw(false).node();
+
+                        $(rowNode).attr('data-id', course.courseId);
+                    });
+
+                    skip += data.length;
+                },
+                error: function(){
+                    Swal.fire('Error', 'No Courses Found', 'error');
+                }
+            });
+        });
+    });
+</script>

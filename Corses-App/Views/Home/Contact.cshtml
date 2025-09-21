@@ -1,0 +1,81 @@
+﻿@using Courses_App.Core.DTO
+@{
+    ViewData["Title"] = "Contact";
+}
+@model ContactFormModel
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <!-- عنوان الصفحة -->
+        <div class="col-lg-8 text-center mb-5">
+            <h1 class="fw-bold">Contact Us</h1>
+            <p class="text-muted">
+                We’d love to hear from you! Fill out the form below or reach us through our contact details.
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- معلومات التواصل -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">Get in Touch</h5>
+                    <p class="mb-2"><i class="bi bi-geo-alt-fill text-primary me-2"></i> Amman, Jordan</p>
+                    <p class="mb-2"><i class="bi bi-telephone-fill text-primary me-2"></i> +962 78 033 9654</p>
+                    <p class="mb-2"><i class="bi bi-envelope-fill text-primary me-2"></i> ww.HamzaSalem@gmail.com</p>
+                    <hr>
+                    <h6 class="fw-bold mb-2">Follow Us</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-primary fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-info fs-5"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-danger fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/hamza-salem-533468332/" class="text-dark fs-5"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نموذج الاتصال -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Send us a Message</h5>
+                    <form method="post" asp-action="Contact">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label">Your Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter your name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Subject" class="form-label">Subject</label>
+                                <input asp-for="Subject" class="form-control" placeholder="Enter subject" />
+                                <span asp-validation-for="Subject" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Message" class="form-label">Message</label>
+                                <textarea asp-for="Message" rows="5" class="form-control" placeholder="Write your message here..."></textarea>
+                                <span asp-validation-for="Message" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-primary px-4">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

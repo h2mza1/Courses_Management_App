@@ -1,0 +1,49 @@
+﻿<!-- The Modal -->
+<div class="modal fade" id="updateVideoModal" tabindex="-1" aria-labelledby="updateVideoModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateVideoModalLabel">Update Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="updateVideoForm" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" id="updateVideoId" name="Id" />
+                    <input type="hidden" id="courseId" name="courseId" />
+
+                    
+                    <div class="mb-3">
+                        <label for="updateName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="updateName" name="Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="updateDescription" class="form-label">Description</label>
+                        <textarea type="text" class="form-control" id="updateDescription" name="Description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Select Video</label>
+                        <input type="file" class="form-control" name="VideoFile" accept="video/*" />
+                    </div>
+
+                    <div class="mb-3">
+                        <video id="videoPreview" controls width="100%" height="240" src=""></video>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

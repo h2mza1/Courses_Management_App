@@ -1,0 +1,459 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+@using Courses_App.Core.DTO
+@model IEnumerable<HistoryDTO>
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4 mb-3">Dashboard</h1>
+
+        <div class="row g-4">
+            <!-- Courses Widget -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow border-0 text-center p-3 h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-book fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Courses</h5>
+                        <h2 class="fw-bold text-primary"><span class="count-number">@ViewBag.cCount</span></h2>
+                        <div class="progress mt-3" style="height:5px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="/Course/Index" class="text-decoration-none text-primary">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Widget -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow border-0 text-center p-3 h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-history fa-3x text-warning"></i>
+                        </div>
+                        <h5 class="card-title">Instructors</h5>
+                        <h2 class="fw-bold text-warning"><span class="count-number">@ViewBag.iCount</span></h2>
+                        <div class="progress mt-3" style="height:5px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="/History/Index" class="text-decoration-none text-warning">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Widget -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow border-0 text-center p-3 h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-layer-group fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Category</h5>
+                        <h2 class="fw-bold text-success"><span class="count-number">@ViewBag.catCount</span></h2>
+                        <div class="progress mt-3" style="height:5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="/Categeory/Index" class="text-decoration-none text-success">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Widget -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow border-0 text-center p-3 h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-user-graduate fa-3x text-danger"></i>
+                        </div>
+                        <h5 class="card-title">Students</h5>
+                        <h2 class="fw-bold text-danger"><span class="count-number">@ViewBag.sCount</span></h2>
+                        <div class="progress mt-3" style="height:5px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="/Student/Index" class="text-decoration-none text-danger">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="card mt-5 shadow">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-table me-2"></i> History
+            </div>
+            <div class="table-responsive">
+                <table id="deletedTable" class="table table-striped table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>ExtraInfo</th>
+                            <th>DeletedAt </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td>@item.EntityType</td>
+                                <td>@item.ExtraInfo</td>
+                                <td>@item.DeletedAt</td>
+                                <td>
+                                    @if (item.EntityType.ToLower() == "course")
+                                    {
+                                        <button class="btn btn-success btn-sm btn-undo-course" data-id="@item.Id"><i class="fa fa-undo"></i></button>
+                                        <button class="btn btn-danger btn-sm btn-delete-course" data-id="@item.Id"><i class="fa fa-trash"></i></button>
+                                    }
+                                    else if (item.EntityType.ToLower() == "instructor")
+                                    {
+                                        <button class="btn btn-success btn-sm btn-undo-instructor" data-id="@item.Id"><i class="fa fa-undo"></i></button>
+                                        <button class="btn btn-danger btn-sm btn-delete-instructor" data-id="@item.Id"><i class="fa fa-trash"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-success btn-sm btn-undo-student" data-id="@item.UserId"><i class="fa fa-undo"></i></button>
+                                        <button class="btn btn-danger btn-sm btn-delete-student" data-id="@item.UserId"><i class="fa fa-trash"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+         window.DeletedTable = $("#deletedTable").DataTable();
+        
+    })
+</script>
+@* Restore Course *@
+<script>
+    $(document).ready(function(){
+        $(".btn-undo-course").on("click",function(){
+            const courseId = $(this).data('id');
+             let row = $(this).closest('tr');
+
+         Swal.fire({
+              title: 'Are you sure undo this item?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, undo it!'
+        }).then((result)=>{
+              if(result.isConfirmed){
+                    $.ajax({
+                        url : "/Course/Restore/",
+                        type: "POST",
+                        headers:{
+                            courseId 
+                        },
+                        success : function(){
+                            Swal.fire("Success","The Course are restore","success");
+                            window.DeletedTable.row(row).remove().draw();
+
+                        },
+                        error: function(xhr){
+                            Swal.fire("error",xhr,"error");
+
+                        }
+                    })
+              }
+
+        });
+        
+        })
+    })
+</script>
+<!--  Delete Course -->
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.btn-delete-course', function() {
+            let id = $(this).data('id');
+            let row = $(this).closest('tr');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: `/Course/DeletePermanent/${id}`,
+                        type: 'POST',
+                        success: function(response){
+                                window.DeletedTable.row(row).remove().draw();
+                                Swal.fire('Deleted!', "The Course and all information is deleted Successfully", 'success');
+                            
+                        },
+                         error:function(xhr)
+                        {
+                            Swal.fire("error","Error","Error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+@* Restore Instructor *@
+<script>
+     $(document).ready(function(){
+
+        $(".btn-undo-instructor").on("click",function(){
+            const id = $(this).data('id');
+            let row = $(this).closest('tr');
+
+         Swal.fire({
+              title: 'Are you sure undo this item?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, undo it!'
+        }).then((result)=>{
+              if(result.isConfirmed){
+                    $.ajax({
+                        url : "/Instructor/Restore/"+id,
+                        type: "POST",
+                        headers:{
+                            id
+                        },
+                        success : function(response){
+                            if(response)
+                            {
+                               window.DeletedTable.row(row).remove().draw();
+
+                                Swal.fire("Success","The instructor are restore","success");
+                            }
+                            else
+                            {
+                                Swal.fire("error","an error on delete instructor","error");
+
+                            }
+                        },
+                        error: function(xhr){
+                            Swal.fire("error",xhr,"error");
+
+                        }
+                    })
+              }
+
+        });
+
+        })
+    })
+</script>
+@* Delete Instructor *@
+<script>
+      $(document).ready(function() {
+        $(document).on('click', '.btn-delete-instructor', function() {
+            let id = $(this).data('id');
+            let row = $(this).closest('tr');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: `/Instructor/DeletePermanent/${id}`,
+                        type: 'POST',
+                        success: function(response){
+                                Swal.fire('Deleted!', "The Instructor and all information is deleted Successfully", 'success');
+                                window.DeletedTable.row(row).remove().draw();
+
+                            
+                        },
+                        error:function(xhr)
+                        {
+                            Swal.fire("error","Error","Error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+@* Restore Student *@
+<script>
+     $(document).ready(function(){
+
+        $(".btn-undo-student").on("click",function(){
+            const id = $(this).data('id');
+            let row = $(this).closest('tr');
+
+         Swal.fire({
+              title: 'Are you sure undo this item?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, undo it!'
+        }).then((result)=>{
+              if(result.isConfirmed){
+                    $.ajax({
+                        url : "/Student/Restore/"+id,
+                        type: "POST",
+                        headers:{
+                            id
+                        },
+                        success : function(response){
+                            if(response)
+                            {
+                               window.DeletedTable.row(row).remove().draw();
+
+                                Swal.fire("Success","The student are restore","success");
+                            }
+                            else
+                            {
+                                Swal.fire("error","an error on restore student","error");
+
+                            }
+                        },
+                        error: function(xhr){
+                            Swal.fire("error",xhr,"error");
+
+                        }
+                    })
+              }
+
+        });
+
+        })
+    })
+</script>
+@* Delete student *@
+<script>
+      $(document).ready(function() {
+        $(document).on('click', '.btn-delete-student', function() {
+            let id = $(this).data('id');
+            let row = $(this).closest('tr');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: `/Student/DeletePermanent/${id}`,
+                        type: 'POST',
+                        success: function(response){
+                            if(response)
+                            {
+                                Swal.fire('Deleted!', "The student and all information is deleted Successfully", 'success');
+                                window.DeletedTable.row(row).remove().draw();
+                            }
+                            else
+                            {
+                                 Swal.fire("error","an error on delete student","error");
+
+                            }
+
+                        },
+                        error:function(xhr)
+                        {
+                            Swal.fire("error","Error","Error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+<script>
+    // تنسيق أرقام مع فواصل آلاف
+    function formatNumber(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // أنيميشن عداد واحد
+    function animateCounter(el, duration = 1200) {
+        // قراءة القيمة الهدف من النص داخل العنصر
+        let targetText = el.text().trim();
+        // إزالة أي فواصل موجودة
+        targetText = targetText.replace(/,/g, '');
+        // حاول تحويلها لرقم، إذا فشل اعتبرها 0
+        let target = parseInt(targetText, 10);
+        if (isNaN(target)) target = 0;
+
+        // اعدادات
+        const start = 0;
+        const range = target - start;
+        if (range === 0) { el.text(formatNumber(target)); return; }
+
+        const startTime = performance.now();
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1); // من 0 إلى 1
+            // easeOutCubic
+            const ease = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(start + (range * ease));
+            el.text(formatNumber(current));
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.text(formatNumber(target)); // تأكيد النهاية
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    $(document).ready(function () {
+        // نعمل أنيميشن فقط عندما تظهر الـ widget في الفيو (لأفضل أداء)
+        const counters = $(".count-number");
+        if (!("IntersectionObserver" in window)) {
+            // لو المتصفح ما يدعم، نشغّل الأنيميشن فوراً
+            counters.each(function () { animateCounter($(this)); });
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = $(entry.target);
+                    // مدة مختلفة حسب حجم الرقم (اختياري)
+                    const val = parseInt(el.text().replace(/,/g,''), 10);
+                    const duration = Math.min(2500, Math.max(800, (val / 100) * 200));
+                    animateCounter(el, duration);
+                    obs.unobserve(entry.target); // نشغّله مرة واحدة فقط
+                }
+            });
+        }, { threshold: 0.2 });
+
+        counters.each(function () {
+            observer.observe(this);
+        });
+    });
+</script>
